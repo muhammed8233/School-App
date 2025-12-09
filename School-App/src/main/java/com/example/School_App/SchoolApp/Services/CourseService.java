@@ -2,7 +2,6 @@ package com.example.School_App.SchoolApp.Services;
 
 import com.example.School_App.SchoolApp.Course;
 import com.example.School_App.SchoolApp.Repository.CourseRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,7 @@ public class CourseService {
     private final CourseRepository courseRepository;
 
     @Autowired
-    public CourseService(CourseRepository courseRepository){
+    public CourseService(CourseRepository courseRepository) {
         this.courseRepository = courseRepository;
     }
 
@@ -23,7 +22,7 @@ public class CourseService {
     }
 
     public void addNewCourse(Course course){
-        Optional<Course> optional = courseRepository.findById(course.getCourseCode());
+        Optional<Course> optional = courseRepository.findById(course.getCourseId());
         if(optional.isPresent()){
             throw new IllegalStateException("Course already exist");
         }
