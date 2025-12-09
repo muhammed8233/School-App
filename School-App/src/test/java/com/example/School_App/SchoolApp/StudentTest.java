@@ -1,6 +1,5 @@
-package com.example.School_App;
+package com.example.School_App.SchoolApp;
 
-import com.example.School_App.SchoolApp.Student;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
