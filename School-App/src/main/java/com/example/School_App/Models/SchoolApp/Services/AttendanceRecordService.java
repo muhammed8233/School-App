@@ -27,7 +27,8 @@ public class AttendanceRecordService {
     @Autowired
     public AttendanceRecordService(AttendanceRecordRepository attendanceRecordRepository,
                                    StudentRepository studentRepository,
-                                   CourseRepository courseRepository, EnrollmentRepository enrollmentRepository) {
+                                   CourseRepository courseRepository,
+                                   EnrollmentRepository enrollmentRepository) {
         this.attendanceRecordRepository = attendanceRecordRepository;
         this.studentRepository = studentRepository;
         this.courseRepository = courseRepository;
@@ -43,42 +44,29 @@ public class AttendanceRecordService {
 
     }
 
-//    public String markAttendance(Long studentId, Long courseId,
-//                                 LocalDate date, Status attendanceStatus) {
-//        Student student = studentRepository.findById(studentId)
-//                .orElseThrow(() -> new RuntimeException("Student with id " + studentId + " not found"));
-//
-//        Course course = courseRepository.findCourseById(courseId).orElseThrow(()
-//                -> new IllegalStateException("course with id " + courseId + " not found"));
-//
-//
-//
-//
-//        if (attendanceRecordRepository.existsByStudentIdAndCourseIdAndDate(student, course, date)) {
-//            return "Attendance already marked";
-//        }
-//        return "Attendance mark as" + attendanceStatus;
-//    }
+    public String markAttendance(Long studentId, Long courseId, LocalDate date, Status status) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
 
-    public String markAttendance(Long enrollmentId, Status status) {
-        Enrollment enrollment = enrollmentRepository.findById(enrollmentId)
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new RuntimeException("Course not found"));
+
+        Enrollment enrollment = enrollmentRepository.findByStudentAndCourse(student, course)
                 .orElseThrow(() -> new RuntimeException("Enrollment not found"));
 
-        LocalDate today = LocalDate.now();
-
-        // Avoid duplicate attendance
-        if (attendanceRecordRepository.existsByEnrollmentAndDate(enrollment, today)) {
-            return "Attendance already marked for today.";
+        if (attendanceRepository.existsByEnrollmentAndDate(enrollment, date)) {
+            return "Attendance already marked for this date.";
         }
 
-        AttendanceRecord attendance = new AttendanceRecord();
-        attendance.setEnrollmentId(enrollment);
-        attendance.setDate(today);
+        Attendance attendance = new Attendance();
+        attendance.setEnrollment(enrollment);
+        attendance.setDate(date);
         attendance.setStatus(status);
 
-        attendanceRecordRepository.save(attendance);
+        attendanceRepository.save(attendance);
 
         return "Attendance marked as " + status;
-
     }
+
+
+
 }
