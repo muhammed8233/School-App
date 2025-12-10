@@ -27,7 +27,7 @@ public class EnrollmentService {
         this.courseRepository = courseRepository;
     }
 
-    public  Enrollment enrollStudentInCourse(Long studentId, Long courseId){
+    public  Enrollment enrollStudentInCourse(Long studentId, Long courseId, Enrollment enrollment){
         Student student = studentRepository.findById(studentId).orElseThrow(()
                 -> new IllegalStateException("student with id "+ studentId+" not found"));
         Course course = courseRepository.findCourseById(courseId).orElseThrow(()
@@ -37,7 +37,6 @@ public class EnrollmentService {
         if (exist){
             throw new RuntimeException("Student is already enrolled in this course");
         }
-        Enrollment enrollment = new Enrollment();
         enrollment.setStudent(student);
         enrollment.setCourse(course);
         return enrollmentRepository.save(enrollment);
