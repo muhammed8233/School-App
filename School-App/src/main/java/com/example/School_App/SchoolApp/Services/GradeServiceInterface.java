@@ -1,5 +1,8 @@
 package com.example.School_App.SchoolApp.Services;
 
-public interface GradeServiceInterface {
+import com.example.School_App.SchoolApp.Enum.Assessment;
+
+public interface GradeServiceInterface  {
+    void recordStudentScore(Long studentId, Long courseId, Assessment type);
 
 }

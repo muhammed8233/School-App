@@ -1,5 +1,6 @@
 package com.example.School_App.SchoolApp.Model;
 
+import com.example.School_App.SchoolApp.Enum.Assessment;
 import jakarta.persistence.*;
 import org.hibernate.sql.ast.tree.update.Assignment;
 
@@ -13,14 +14,18 @@ public class Grade {
 
     @OneToOne
     private Enrollment enrollmentId;
-    private Assignment assignmentType;
+    private Assessment assessmentType;
     private int score;
 
-    public Grade(Long id, Enrollment enrollmentId, Assignment assignmentType, int score) {
+    public Grade(Long id, Enrollment enrollmentId, Assessment assessmentType, int score) {
         this.id = id;
         this.enrollmentId = enrollmentId;
-        this.assignmentType = assignmentType;
+        this.assessmentType = assessmentType;
         this.score = score;
+    }
+
+    public Grade() {
+
     }
 
     public Long getId() {
@@ -39,12 +44,12 @@ public class Grade {
         this.enrollmentId = enrollmentId;
     }
 
-    public Assignment getAssignmentType() {
-        return assignmentType;
+    public Assessment getAssessmentType() {
+        return assessmentType;
     }
 
-    public void setAssignmentType(Assignment assignmentType) {
-        this.assignmentType = assignmentType;
+    public void setAssessmentType(Assessment assessmentType) {
+        this.assessmentType = assessmentType;
     }
 
     public int getScore() {

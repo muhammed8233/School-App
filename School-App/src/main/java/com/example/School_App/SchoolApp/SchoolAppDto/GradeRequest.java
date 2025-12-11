@@ -6,15 +6,15 @@ import com.example.School_App.SchoolApp.Enum.Assessment;
 public class GradeRequest {
    private Long studentId;
    private Long courseId;
-   private String assessmentType;
+   private Assessment assessmentType;
    private double score;
 
 
-    public String getAssessmentType() {
+    public Assessment getAssessmentType() {
         return assessmentType;
     }
 
-    public void setAssessmentType(String assessmentType) {
+    public void setAssessmentType(Assessment assessmentType) {
         this.assessmentType = assessmentType;
     }
 

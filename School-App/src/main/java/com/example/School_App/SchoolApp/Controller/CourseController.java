@@ -1,8 +1,7 @@
 package com.example.School_App.SchoolApp.Controller;
 
-import com.example.School_App.SchoolApp.Model.Course;
 import com.example.School_App.SchoolApp.SchoolAppDto.CourseRequest;
-import com.example.School_App.SchoolApp.Services.CourseService;
+import com.example.School_App.SchoolApp.Services.CourseServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,20 +10,20 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "course")
 public class CourseController {
-    private final CourseService courseService;
+    private final CourseServiceInterface courseServiceInterface;
 
     @Autowired
-    public CourseController(CourseService courseService){
-        this.courseService = courseService;
+    public CourseController(CourseServiceInterface courseServiceInterface){
+        this.courseServiceInterface = courseServiceInterface;
     }
 
     @GetMapping
     public List<CourseRequest> getStudentCourse(){
-        return courseService.getStudentCourse();
+        return courseServiceInterface.getStudentCourse();
     }
 
     @PostMapping
     public void addNewCourse(@RequestBody CourseRequest courseRequest){
-         courseService.addNewCourse(courseRequest);
+         courseServiceInterface.addNewCourse(courseRequest);
     }
 }

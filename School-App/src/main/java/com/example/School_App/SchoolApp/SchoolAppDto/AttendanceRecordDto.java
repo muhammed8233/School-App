@@ -9,6 +9,8 @@ public class AttendanceRecordDto {
     private Long studentId;
     private Long present;
     private Long absent;
+    private Status status;
+    private LocalDate date;
 
     public AttendanceRecordDto(Long studentId, Long courseId, Long present, Long absent) {
         this.studentId =studentId;
@@ -47,5 +49,21 @@ public class AttendanceRecordDto {
 
     public void setPresent(Long present) {
         this.present = present;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

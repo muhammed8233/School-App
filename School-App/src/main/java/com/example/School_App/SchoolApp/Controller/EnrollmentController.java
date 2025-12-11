@@ -1,11 +1,9 @@
 package com.example.School_App.SchoolApp.Controller;
 
-import com.example.School_App.SchoolApp.Model.Course;
 import com.example.School_App.SchoolApp.SchoolAppDto.CourseRequest;
 import com.example.School_App.SchoolApp.SchoolAppDto.EnrollmentRequest;
 import com.example.School_App.SchoolApp.SchoolAppDto.StudentDto;
-import com.example.School_App.SchoolApp.Services.EnrollmentService;
-import com.example.School_App.SchoolApp.Model.Student;
+import com.example.School_App.SchoolApp.Services.EnrollmentServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,25 +12,25 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "enrollment")
 public class EnrollmentController {
-    private final EnrollmentService enrollmentService;
+    private final EnrollmentServiceInterface enrollmentServiceInterface;
 
     @Autowired
-    public EnrollmentController(EnrollmentService enrollmentService){
-        this.enrollmentService = enrollmentService;
+    public EnrollmentController(EnrollmentServiceInterface enrollmentServiceInterface){
+        this.enrollmentServiceInterface = enrollmentServiceInterface;
     }
 
     @PostMapping
     public void enrollStudentInACourse(@RequestBody EnrollmentRequest enrollmentRequest){
-         enrollmentService.enrollStudentInCourse(enrollmentRequest.getStudentId(), enrollmentRequest.getCourseId());
+         enrollmentServiceInterface.enrollStudentInCourse(enrollmentRequest.getStudentId(), enrollmentRequest.getCourseId());
     }
-    @GetMapping("{courseId}")
-    public List<StudentDto> getAllStudentInACourse(@PathVariable Long courseId ){
-        return enrollmentService.getStudentsByACourse(courseId);
+    @GetMapping("/{courseId}")
+    public List<StudentDto> getAllStudentInACourse(@RequestParam Long courseId ){
+        return enrollmentServiceInterface.getStudentsByACourse(courseId);
     }
 
-    @GetMapping("{studentId}")
-    public List<CourseRequest> getAllCourseOfAStudent(@PathVariable Long studentId){
-        return enrollmentService.getCourseByStudent(studentId);
+    @GetMapping("/{studentId}")
+    public List<CourseRequest> getAllCourseOfAStudent(@RequestParam Long studentId){
+        return enrollmentServiceInterface.getCourseByStudent(studentId);
     }
 
 }
