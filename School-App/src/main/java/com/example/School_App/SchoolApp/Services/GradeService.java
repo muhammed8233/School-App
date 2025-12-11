@@ -9,8 +9,11 @@ import com.example.School_App.SchoolApp.Repository.CourseRepository;
 import com.example.School_App.SchoolApp.Repository.EnrollmentRepository;
 import com.example.School_App.SchoolApp.Repository.GradeRepository;
 import com.example.School_App.SchoolApp.Repository.StudentRepository;
+import com.example.School_App.SchoolApp.SchoolAppDto.GradeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class GradeService implements GradeServiceInterface {
@@ -41,8 +44,13 @@ public class GradeService implements GradeServiceInterface {
                 -> new RuntimeException("course with id "+ courseId + " not found"));
 
         Enrollment enrollment = enrollmentRepository.findByStudentAndCourse(student, course);
-        if(gradeRepository.existsByEnrollmentId(enrollment)){
-            throw new RuntimeException("the student score has been recorded");
+        if(gradeRepository.existsByEnrollment(enrollment)){
+            throw new RuntimeException("Enrollment not found");
+        }
+        Optional<Enrollment> existingEnrollment = gradeRepository.
+                existsByEnrollmentAndAssessmentType(enrollment, type);
+        if (existingEnrollment.isPresent()){
+            throw new RuntimeException(" the student score has been recorded");
         }
 
         Grade grade = new Grade();
@@ -50,6 +58,19 @@ public class GradeService implements GradeServiceInterface {
         grade.setAssessmentType(type);
         gradeRepository.save(grade);
 
+    }
+
+    @Override
+    public GradeRequest getAllStudentScoreInACourse(Long studentId, Long courseId) {
+        Grade exam = gradeRepository.findById(studentId, courseId, Assessment.EXAM)
+                .orElseThrow(()-> new RuntimeException
+                ("exam record not found "));
+        Grade test = gradeRepository.findById(courseId, courseId, Assessment.TEST).orElseThrow(()
+                -> new RuntimeException("test record not found"));
+        Grade assignment = gradeRepository.findById(studentId, courseId, Assessment.ASSIGNMENT).orElseThrow(()
+        -> new RuntimeException("assignment record not found"));
+
+        return new GradeRequest(studentId, courseId, exam, test, assignment);
     }
 
 }

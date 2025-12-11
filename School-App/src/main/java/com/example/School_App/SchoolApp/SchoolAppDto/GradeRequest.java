@@ -1,13 +1,24 @@
 package com.example.School_App.SchoolApp.SchoolAppDto;
 
-import com.example.School_App.SchoolApp.Model.Enrollment;
 import com.example.School_App.SchoolApp.Enum.Assessment;
+import com.example.School_App.SchoolApp.Model.Grade;
 
 public class GradeRequest {
    private Long studentId;
    private Long courseId;
-   private Assessment assessmentType;
+   private Grade test;
+   private Grade exam;
+   private  Grade assignment;
    private double score;
+   private Assessment assessmentType;
+
+    public GradeRequest(Long studentId, Long courseId, Grade exam, Grade test, Grade assignment) {
+        this.studentId = studentId;
+        this.courseId = courseId;
+        this.exam = exam;
+        this.test = test;
+        this.assignment = assignment;
+    }
 
 
     public Assessment getAssessmentType() {

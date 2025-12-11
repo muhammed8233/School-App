@@ -2,7 +2,6 @@ package com.example.School_App.SchoolApp.Model;
 
 import com.example.School_App.SchoolApp.Enum.Assessment;
 import jakarta.persistence.*;
-import org.hibernate.sql.ast.tree.update.Assignment;
 
 @Entity
 public class Grade {
