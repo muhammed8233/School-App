@@ -22,4 +22,9 @@ public class GradeController {
         gradeServiceInterface.recordStudentScore(gradeRequest.getStudentId(),
                 gradeRequest.getCourseId(), gradeRequest.getAssessmentType());
     }
+    @GetMapping
+    public GradeRequest getAllStudentScoreInACourse(@RequestParam Long studentId,
+                                                    @RequestParam Long courseId){
+        return gradeServiceInterface.getAllStudentScoreInACourse(studentId, courseId);
+    }
 }
