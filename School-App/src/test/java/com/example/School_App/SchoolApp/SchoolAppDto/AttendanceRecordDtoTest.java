@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AttendanceRecordDtoTest {
     AttendanceRecordDto recordDto = new AttendanceRecordDto();
 
+    @Test
     void testToVerifyStudentIdIsSet(){
         recordDto.setStudentId(1L);
         assertEquals(1L, recordDto.getStudentId());

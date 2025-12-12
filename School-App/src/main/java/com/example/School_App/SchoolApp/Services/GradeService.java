@@ -63,13 +63,13 @@ public class GradeService implements GradeServiceInterface {
 
     @Override
     public GradeRequest getAllStudentScoreInACourse(Long studentId, Long courseId) {
-        Grade exam = gradeRepository.findById(studentId, courseId, Assessment.EXAM)
+        Double exam = gradeRepository.findById(studentId, courseId, Assessment.EXAM)
                 .orElseThrow(()-> new RuntimeException
-                ("exam record not found "));
-        Grade test = gradeRepository.findById(courseId, courseId, Assessment.TEST).orElseThrow(()
-                -> new RuntimeException("test record not found"));
-        Grade assignment = gradeRepository.findById(studentId, courseId, Assessment.ASSIGNMENT).orElseThrow(()
-        -> new RuntimeException("assignment record not found"));
+                ("exam record not found ")).getScore();
+        Double test = gradeRepository.findById(courseId, courseId, Assessment.TEST).orElseThrow(()
+                -> new RuntimeException("test record not found")).getScore();
+        Double assignment = gradeRepository.findById(studentId, courseId, Assessment.ASSIGNMENT).orElseThrow(()
+        -> new RuntimeException("assignment record not found")).getScore();
 
         return new GradeRequest(studentId, courseId, exam, test, assignment);
     }
@@ -81,9 +81,9 @@ public class GradeService implements GradeServiceInterface {
         double examScore = 0;
 
         for(Grade grade : grades){
-            if(grade.getAssessmentType() == com.example.School_App.SchoolApp.Enum.Assessment.TEST){
+            if(grade.getAssessmentType() == Assessment.TEST){
                 testScore = grade.getScore();
-            }else if(grade.getAssessmentType() == com.example.School_App.SchoolApp.Enum.Assessment.EXAM){
+            }else if(grade.getAssessmentType() == Assessment.EXAM){
                 examScore = grade.getScore();
             }
         }
