@@ -7,6 +7,7 @@ import com.example.School_App.SchoolApp.Repository.EnrollmentRepository;
 import com.example.School_App.SchoolApp.Repository.StudentRepository;
 import com.example.School_App.SchoolApp.Model.Student;
 import com.example.School_App.SchoolApp.SchoolAppDto.CourseRequest;
+import com.example.School_App.SchoolApp.SchoolAppDto.EnrollmentRequest;
 import com.example.School_App.SchoolApp.SchoolAppDto.StudentDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,12 +33,12 @@ public class EnrollmentService implements EnrollmentServiceInterface{
         this.courseRepository = courseRepository;
     }
     @Override
-    public void enrollStudentInCourse(Long studentId, Long courseId){
-        Student student = studentRepository.findById(studentId).orElseThrow(() ->
-                new IllegalStateException("student with id "+ studentId + " not found"));
+    public Enrollment enrollStudentInCourse(EnrollmentRequest enrollmentRequest){
+        Student student = studentRepository.findById(enrollmentRequest.getStudentId()).orElseThrow(() ->
+                new IllegalStateException("student with id "+ enrollmentRequest.getStudentId() + " not found"));
 
-        Course course = courseRepository.findById(courseId).orElseThrow(()
-        -> new IllegalStateException("Course with id "+ courseId +" not found"));
+        Course course = courseRepository.findById(enrollmentRequest.getCourseId()).orElseThrow(()
+        -> new IllegalStateException("Course with id "+ enrollmentRequest.getCourseId() +" not found"));
 
         boolean exists = enrollmentRepository.existsByStudentAndByCourse(student, course);
         if (exists){
@@ -46,29 +47,19 @@ public class EnrollmentService implements EnrollmentServiceInterface{
         Enrollment enrollment = new Enrollment();
         enrollment.setStudent(student);
         enrollment.setCourse(course);
-         enrollmentRepository.save(enrollment);
+        return enrollmentRepository.save(enrollment);
     }
 
     @Override
-    public List<StudentDto> getStudentsByACourse(Long courseId) {
+    public List<Enrollment> getStudentsByACourse(Long courseId) {
         List<Enrollment> enrollments = enrollmentRepository.findByCourseId(courseId);
-        List<StudentDto> students = new ArrayList<>();
 
-        for(Enrollment enrollment : enrollments){
-            Student student = enrollment.getStudent();
-            students.add(new StudentDto(student.getName(), student.getEmail(), student.getClassName()));
-        }
-        return students;
+        return enrollments;
     }
     @Override
-    public List<CourseRequest> getCourseByStudent(Long studentId){
+    public List<Enrollment> getCourseByStudent(Long studentId){
         List<Enrollment> enrollments = enrollmentRepository.findByStudentId(studentId);
-        List<CourseRequest> courses = new ArrayList<>();
 
-        for(Enrollment enrollment : enrollments){
-            Course course = enrollment.getCourse();
-            courses.add(new CourseRequest(course.getCourseName(),course.getCourseCode()));
-        }
-        return courses;
+        return enrollments;
     }
 }

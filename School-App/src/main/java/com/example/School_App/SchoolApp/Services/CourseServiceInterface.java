@@ -6,7 +6,7 @@ import com.example.School_App.SchoolApp.SchoolAppDto.CourseRequest;
 import java.util.List;
 
 public interface CourseServiceInterface {
-    List<CourseRequest> getStudentCourse();
+    List<Course> getStudentCourse();
 
-    void addNewCourse(CourseRequest course);
+    Course addNewCourse(CourseRequest courseRequest);
 }

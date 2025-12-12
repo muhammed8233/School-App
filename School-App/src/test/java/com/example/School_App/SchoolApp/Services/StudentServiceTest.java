@@ -50,21 +50,20 @@ class StudentServiceTest {
     void testToViewAllStudent(){
         Student student1= new Student(1L,"musa","musa@gmail.com","ss1");
         Student student = new Student(2L,"bala","bala@gmail.com","ss1");
-        List<Student> students = Arrays.asList(student, student1);
+        Student student2 = new Student(3L,"yusuf","yusuf@gmail.com","ss1");
+        List<Student> students = Arrays.asList(student, student1, student2);
 
         when(studentRepository.findAll()).thenReturn(students);
 
         List<Student> result = studentService.getStudents();
 
         assertNotNull(result);
-        assertEquals(2,result.size());
+        assertEquals(3,result.size());
         assertEquals("musa", result.get(1).getName());
         assertEquals("bala", result.get(0).getName());
+        assertEquals("yusuf", result.get(2).getName());
 
         verify(studentRepository, times(1)).findAll();
 
     }
-
-
-
 }

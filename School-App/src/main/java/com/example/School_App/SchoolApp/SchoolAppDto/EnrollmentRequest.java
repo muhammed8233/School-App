@@ -1,12 +1,16 @@
 package com.example.School_App.SchoolApp.SchoolAppDto;
 
-import com.example.School_App.SchoolApp.Model.Course;
-import com.example.School_App.SchoolApp.Model.Student;
-import com.example.School_App.SchoolApp.Repository.CourseRepository;
 
 public class EnrollmentRequest {
     private Long studentId;
     private Long courseId;
+
+    public EnrollmentRequest(){}
+    public EnrollmentRequest(Long studentId, Long courseId) {
+        this.studentId = studentId;
+        this.courseId = courseId;
+    }
+
 
     public Long getCourseId() {
         return courseId;

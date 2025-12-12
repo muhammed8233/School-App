@@ -1,5 +1,6 @@
 package com.example.School_App.SchoolApp.Controller;
 
+import com.example.School_App.SchoolApp.Model.Course;
 import com.example.School_App.SchoolApp.SchoolAppDto.CourseRequest;
 import com.example.School_App.SchoolApp.Services.CourseServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class CourseController {
     }
 
     @GetMapping
-    public List<CourseRequest> getStudentCourse(){
+    public List<Course> getStudentCourse(){
         return courseServiceInterface.getStudentCourse();
     }
 

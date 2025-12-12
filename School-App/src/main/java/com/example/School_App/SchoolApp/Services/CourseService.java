@@ -20,20 +20,14 @@ public class CourseService implements CourseServiceInterface {
     }
 
     @Override
-    public List<CourseRequest> getStudentCourse(){
+    public List<Course> getStudentCourse(){
         List<Course> courses = courseRepository.findAll();
-        List<CourseRequest> courseRequests = new ArrayList<>();
 
-        for(Course course : courses){
-            CourseRequest courseRequest = new CourseRequest();
-            courseRequest.setCourseName(course.getCourseName());
-            courseRequest.setCourseCode(course.getCourseCode());
-        }
-        return courseRequests;
+        return courses;
     }
 
     @Override
-    public void addNewCourse(CourseRequest courseRequest){
+    public Course addNewCourse(CourseRequest courseRequest){
         boolean exists = courseRepository.existsByCourseCode(courseRequest.getCourseCode());
         if(exists){
             throw new IllegalStateException("Course already exist");
@@ -41,7 +35,7 @@ public class CourseService implements CourseServiceInterface {
         Course course = new Course();
         course.setCourseName(courseRequest.getCourseName());
         course.setCourseCode(courseRequest.getCourseCode());
-         courseRepository.save(course);
+         return courseRepository.save(course);
     }
 
 }

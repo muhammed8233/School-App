@@ -1,5 +1,6 @@
 package com.example.School_App.SchoolApp.Controller;
 
+import com.example.School_App.SchoolApp.Model.Enrollment;
 import com.example.School_App.SchoolApp.SchoolAppDto.CourseRequest;
 import com.example.School_App.SchoolApp.SchoolAppDto.EnrollmentRequest;
 import com.example.School_App.SchoolApp.SchoolAppDto.StudentDto;
@@ -20,16 +21,16 @@ public class EnrollmentController {
     }
 
     @PostMapping
-    public void enrollStudentInACourse(@RequestBody EnrollmentRequest enrollmentRequest){
-         enrollmentServiceInterface.enrollStudentInCourse(enrollmentRequest.getStudentId(), enrollmentRequest.getCourseId());
+    public Enrollment enrollStudentInACourse(@RequestBody EnrollmentRequest enrollmentRequest){
+         return enrollmentServiceInterface.enrollStudentInCourse(enrollmentRequest);
     }
     @GetMapping("/{courseId}")
-    public List<StudentDto> getAllStudentInACourse(@RequestParam Long courseId ){
+    public List<Enrollment> getAllStudentInACourse(@RequestParam Long courseId ){
         return enrollmentServiceInterface.getStudentsByACourse(courseId);
     }
 
     @GetMapping("/{studentId}")
-    public List<CourseRequest> getAllCourseOfAStudent(@RequestParam Long studentId){
+    public List<Enrollment> getAllCourseOfAStudent(@RequestParam Long studentId){
         return enrollmentServiceInterface.getCourseByStudent(studentId);
     }
 
