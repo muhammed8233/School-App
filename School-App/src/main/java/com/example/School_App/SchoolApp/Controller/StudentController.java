@@ -1,5 +1,6 @@
 package com.example.School_App.SchoolApp.Controller;
 
+import com.example.School_App.SchoolApp.Model.Student;
 import com.example.School_App.SchoolApp.SchoolAppDto.StudentDto;
 import com.example.School_App.SchoolApp.Services.StudentServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class StudentController {
     }
 
     @GetMapping
-    public List<StudentDto> getStudent(){
+    public List<Student> getStudent(){
         return studentServiceInterface.getStudents();
     }
 

@@ -10,6 +10,7 @@ import com.example.School_App.SchoolApp.Repository.EnrollmentRepository;
 import com.example.School_App.SchoolApp.Repository.GradeRepository;
 import com.example.School_App.SchoolApp.Repository.StudentRepository;
 import com.example.School_App.SchoolApp.SchoolAppDto.GradeRequest;
+import com.example.School_App.SchoolApp.SchoolAppDto.ScoreDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +39,7 @@ public class GradeService implements GradeServiceInterface {
     }
 
     @Override
-    public void recordStudentScore(Long studentId, Long courseId, com.example.School_App.SchoolApp.Enum.Assessment type) {
+    public void recordStudentScore(Long studentId, Long courseId, Assessment type) {
         Student student = studentRepository.findById(studentId).orElseThrow(()
                 -> new RuntimeException("Student with Id "+ studentId + "not found") );
         Course course = courseRepository.findById(courseId).orElseThrow(()
@@ -62,17 +63,18 @@ public class GradeService implements GradeServiceInterface {
     }
 
     @Override
-    public GradeRequest getAllStudentScoreInACourse(Long studentId, Long courseId) {
+    public ScoreDto getAllStudentScoreInACourse(Long studentId, Long courseId) {
         Double exam = gradeRepository.findById(studentId, courseId, Assessment.EXAM)
                 .orElseThrow(()-> new RuntimeException
                 ("exam record not found ")).getScore();
-        Double test = gradeRepository.findById(courseId, courseId, Assessment.TEST).orElseThrow(()
+        Double test = gradeRepository.findById(studentId, courseId, Assessment.TEST).orElseThrow(()
                 -> new RuntimeException("test record not found")).getScore();
         Double assignment = gradeRepository.findById(studentId, courseId, Assessment.ASSIGNMENT).orElseThrow(()
         -> new RuntimeException("assignment record not found")).getScore();
 
-        return new GradeRequest(studentId, courseId, exam, test, assignment);
+        return new ScoreDto(studentId, courseId, exam, test, assignment);
     }
+
 
     @Override
     public double computeFinalScore(Long enrollmentId){

@@ -22,27 +22,20 @@ public class StudentService implements StudentServiceInterface {
 
 
     @Override
-    public void addNewStudent(StudentDto studentDTO) {
+    public Student addNewStudent(StudentDto studentDTO) {
         Student student = new Student();
         student.setName(studentDTO.getName());
         student.setEmail(studentDTO.getEmail());
         student.setClassName(studentDTO.getClassName());
-        studentRepository.save(student);
+        return studentRepository.save(student);
 
     }
 
     @Override
-    public List<StudentDto> getStudents() {
+    public List<Student> getStudents() {
         List<Student> students = studentRepository.findAll();
-        List<StudentDto> studentDto = new ArrayList<>();
 
-        for (Student student : students) {
-            StudentDto studentDto1 = new StudentDto();
-            studentDto1.setName(student.getName());
-            studentDto1.setEmail(student.getEmail());
-            studentDto1.setClassName(student.getClassName());
-        }
-        return studentDto;
+        return students;
     }
 
 

@@ -3,9 +3,16 @@ package com.example.School_App.SchoolApp.SchoolAppDto;
 public class ScoreDto {
     private Long studentId;
     private Long courseId;
-    private Double exam;
-    private Double test;
-    private Double assignment;
+    private Double examScore;
+    private Double testScore;
+    private Double assignmentScore;
+
+    public ScoreDto(Long studentId, Long courseId, Double examScore, Double testScore, Double assignmentScore) {
+    }
+
+    public ScoreDto() {
+        
+    }
 
     public Long getStudentId() {
         return studentId;
@@ -23,27 +30,27 @@ public class ScoreDto {
         this.courseId = courseId;
     }
 
-    public Double getExam() {
-        return exam;
+    public Double getExamScore() {
+        return examScore;
     }
 
-    public void setExam(Double exam) {
-        this.exam = exam;
+    public void setExamScore(Double examScore) {
+        this.examScore = examScore;
     }
 
-    public Double getAssignment() {
-        return assignment;
+    public Double getAssignmentScore() {
+        return assignmentScore;
     }
 
-    public void setAssignment(Double assignment) {
-        this.assignment = assignment;
+    public void setAssignmentScore(Double assignmentScore) {
+        this.assignmentScore = assignmentScore;
     }
 
-    public Double getTest() {
-        return test;
+    public Double getTestScore() {
+        return testScore;
     }
 
-    public void setTest(Double test) {
-        this.test = test;
+    public void setTestScore(Double testScore) {
+        this.testScore = testScore;
     }
 }
