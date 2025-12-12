@@ -55,7 +55,7 @@ public class EnrollmentService implements EnrollmentServiceInterface{
         List<StudentDto> students = new ArrayList<>();
 
         for(Enrollment enrollment : enrollments){
-            StudentDto student = enrollment.getStudent();
+            Student student = enrollment.getStudent();
             students.add(new StudentDto(student.getName(), student.getEmail(), student.getClassName()));
         }
         return students;
@@ -66,7 +66,7 @@ public class EnrollmentService implements EnrollmentServiceInterface{
         List<CourseRequest> courses = new ArrayList<>();
 
         for(Enrollment enrollment : enrollments){
-            CourseRequest course = enrollment.getCourse();
+            Course course = enrollment.getCourse();
             courses.add(new CourseRequest(course.getCourseName(),course.getCourseCode()));
         }
         return courses;

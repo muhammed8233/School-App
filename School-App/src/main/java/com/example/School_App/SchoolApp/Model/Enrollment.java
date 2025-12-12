@@ -41,7 +41,7 @@ public class Enrollment {
         this.id = id;
     }
 
-    public StudentDto getStudent() {
+    public Student getStudent() {
         return student;
     }
 
@@ -49,7 +49,7 @@ public class Enrollment {
         this.student = student;
     }
 
-    public CourseRequest getCourse() {
+    public Course getCourse() {
         return course;
     }
 

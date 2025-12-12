@@ -27,4 +27,8 @@ public class GradeController {
                                                     @RequestParam Long courseId){
         return gradeServiceInterface.getAllStudentScoreInACourse(studentId, courseId);
     }
+    @GetMapping("/{enrollmentId}")
+    public double getFinalScore(@PathVariable Long enrollmentId){
+        return gradeServiceInterface.computeFinalScore(enrollmentId);
+    }
 }

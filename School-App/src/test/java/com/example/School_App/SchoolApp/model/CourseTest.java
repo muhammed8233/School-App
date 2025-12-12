@@ -1,4 +1,4 @@
-package com.example.School_App.SchoolApp;
+package com.example.School_App.SchoolApp.model;
 
 import com.example.School_App.SchoolApp.Model.Course;
 import org.junit.jupiter.api.Test;

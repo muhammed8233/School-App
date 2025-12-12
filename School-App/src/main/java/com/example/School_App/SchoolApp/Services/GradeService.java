@@ -13,6 +13,7 @@ import com.example.School_App.SchoolApp.SchoolAppDto.GradeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,7 +38,7 @@ public class GradeService implements GradeServiceInterface {
     }
 
     @Override
-    public void recordStudentScore(Long studentId, Long courseId, Assessment type) {
+    public void recordStudentScore(Long studentId, Long courseId, com.example.School_App.SchoolApp.Enum.Assessment type) {
         Student student = studentRepository.findById(studentId).orElseThrow(()
                 -> new RuntimeException("Student with Id "+ studentId + "not found") );
         Course course = courseRepository.findById(courseId).orElseThrow(()
@@ -71,6 +72,23 @@ public class GradeService implements GradeServiceInterface {
         -> new RuntimeException("assignment record not found"));
 
         return new GradeRequest(studentId, courseId, exam, test, assignment);
+    }
+
+    @Override
+    public double computeFinalScore(Long enrollmentId){
+        List<Grade> grades = gradeRepository.findByEnrollmentId(enrollmentId);
+        double testScore = 0;
+        double examScore = 0;
+
+        for(Grade grade : grades){
+            if(grade.getAssessmentType() == com.example.School_App.SchoolApp.Enum.Assessment.TEST){
+                testScore = grade.getScore();
+            }else if(grade.getAssessmentType() == com.example.School_App.SchoolApp.Enum.Assessment.EXAM){
+                examScore = grade.getScore();
+            }
+        }
+        return 0.4 * testScore + 0.6 * examScore;
+
     }
 
 }

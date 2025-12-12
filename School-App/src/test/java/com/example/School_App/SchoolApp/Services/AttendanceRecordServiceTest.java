@@ -11,7 +11,7 @@ class AttendanceRecordServiceTest {
     private AttendanceRecordService attendanceRecordService;
 
     @Test
-    void test
+    void test(){}
 
 
 

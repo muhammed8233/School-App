@@ -1,6 +1,5 @@
 package com.example.School_App.SchoolApp.Model;
 
-import com.example.School_App.SchoolApp.Enum.Assessment;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,10 +12,10 @@ public class Grade {
 
     @OneToOne
     private Enrollment enrollmentId;
-    private Assessment assessmentType;
-    private int score;
+    private com.example.School_App.SchoolApp.Enum.Assessment assessmentType;
+    private double score;
 
-    public Grade(Long id, Enrollment enrollmentId, Assessment assessmentType, int score) {
+    public Grade(Long id, Enrollment enrollmentId, com.example.School_App.SchoolApp.Enum.Assessment assessmentType, double score) {
         this.id = id;
         this.enrollmentId = enrollmentId;
         this.assessmentType = assessmentType;
@@ -43,19 +42,21 @@ public class Grade {
         this.enrollmentId = enrollmentId;
     }
 
-    public Assessment getAssessmentType() {
+    public com.example.School_App.SchoolApp.Enum.Assessment getAssessmentType() {
         return assessmentType;
     }
 
-    public void setAssessmentType(Assessment assessmentType) {
+    public void setAssessmentType(com.example.School_App.SchoolApp.Enum.Assessment assessmentType) {
         this.assessmentType = assessmentType;
     }
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setScore(double score) {
+        if(score >= 0) {
+            this.score = score;
+        }
     }
 }

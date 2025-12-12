@@ -1,6 +1,5 @@
 package com.example.School_App.SchoolApp.SchoolAppDto;
 
-import com.example.School_App.SchoolApp.Enum.Assessment;
 import com.example.School_App.SchoolApp.Model.Grade;
 
 public class GradeRequest {
@@ -8,9 +7,9 @@ public class GradeRequest {
    private Long courseId;
    private Grade test;
    private Grade exam;
-   private  Grade assignment;
+   private Grade assignment;
    private double score;
-   private Assessment assessmentType;
+   private com.example.School_App.SchoolApp.Enum.Assessment assessmentType;
 
     public GradeRequest(Long studentId, Long courseId, Grade exam, Grade test, Grade assignment) {
         this.studentId = studentId;
@@ -20,12 +19,16 @@ public class GradeRequest {
         this.assignment = assignment;
     }
 
+    public GradeRequest() {
 
-    public Assessment getAssessmentType() {
+    }
+
+
+    public com.example.School_App.SchoolApp.Enum.Assessment getAssessmentType() {
         return assessmentType;
     }
 
-    public void setAssessmentType(Assessment assessmentType) {
+    public void setAssessmentType(com.example.School_App.SchoolApp.Enum.Assessment assessmentType) {
         this.assessmentType = assessmentType;
     }
 

@@ -9,6 +9,10 @@ public class CourseRequest {
         this.courseCode = courseCode;
     }
 
+    public CourseRequest() {
+
+    }
+
     public String getCourseCode() {
         return courseCode;
     }

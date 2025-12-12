@@ -19,6 +19,10 @@ public class AttendanceRecordDto {
         this.courseId = courseId;
     }
 
+    public AttendanceRecordDto() {
+
+    }
+
     public Long getCourseId() {
         return courseId;
     }
