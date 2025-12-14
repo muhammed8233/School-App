@@ -6,6 +6,7 @@ import com.example.School_App.SchoolApp.Model.Enrollment;
 import com.example.School_App.SchoolApp.Model.Grade;
 import com.example.School_App.SchoolApp.Model.Student;
 import com.example.School_App.SchoolApp.Repository.CourseRepository;
+import com.example.School_App.SchoolApp.Repository.EnrollmentRepository;
 import com.example.School_App.SchoolApp.Repository.GradeRepository;
 import com.example.School_App.SchoolApp.Repository.StudentRepository;
 import com.example.School_App.SchoolApp.SchoolAppDto.GradeDto;
@@ -30,6 +31,8 @@ class GradeServiceTest {
     private StudentRepository studentRepository;
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private EnrollmentRepository enrollmentRepository;
 
     @BeforeEach
     void setup(){
@@ -45,6 +48,7 @@ class GradeServiceTest {
         Enrollment enrollment = new Enrollment();
         enrollment.setStudent(student);
         enrollment.setCourse( course);
+        enrollmentRepository.save(enrollment);
         Grade testGrade = new Grade();
         testGrade.setAssessmentType(Assessment.TEST);
         testGrade.setScore(50);

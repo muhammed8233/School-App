@@ -62,7 +62,4 @@ class StudentServiceTest {
         assertEquals("bala", result.get(0).getName());
 
     }
-
-
-
 }
