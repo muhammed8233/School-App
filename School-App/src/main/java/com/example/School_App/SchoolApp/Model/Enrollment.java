@@ -1,7 +1,6 @@
 package com.example.School_App.SchoolApp.Model;
 
-import com.example.School_App.SchoolApp.SchoolAppDto.CourseRequest;
-import com.example.School_App.SchoolApp.SchoolAppDto.StudentDto;
+import com.example.School_App.SchoolApp.SchoolAppDto.CourseDto;
 import jakarta.persistence.*;
 
 @Entity
@@ -32,6 +31,10 @@ public class Enrollment {
         this.course = course;
 
     }
+    public Enrollment(Student student, Course course){
+        this.student = student;
+        this.course = course;
+    }
 
     public Long getId() {
         return id;
@@ -57,4 +60,12 @@ public class Enrollment {
         this.course = course;
     }
 
+    @Override
+    public String toString() {
+        return "Enrollment{" +
+                "course=" + course +
+                ", id=" + id +
+                ", student=" + student +
+                '}';
+    }
 }

@@ -18,15 +18,14 @@ public class AttendanceRecord {
             name = "enrollment_Id",
             nullable = false
     )
-    private Enrollment enrollmentId;
+    private Enrollment enrollment;
     private LocalDate date;
     @Enumerated(EnumType.STRING)
     private Status status;
-
     public AttendanceRecord(){}
     public AttendanceRecord(Long id, Enrollment enrollmentId, Status status, LocalDate date) {
         this.id = id;
-        this.enrollmentId = enrollmentId;
+        this.enrollment = enrollmentId;
         this.status = status;
         this.date = date;
     }
@@ -47,12 +46,12 @@ public class AttendanceRecord {
         this.id = id;
     }
 
-    public Enrollment getEnrollmentId() {
-        return enrollmentId;
+    public Enrollment getEnrollment() {
+        return enrollment;
     }
 
-    public void setEnrollmentId(Enrollment enrollmentId) {
-        this.enrollmentId = enrollmentId;
+    public void setEnrollment(Enrollment enrollment) {
+        this.enrollment = enrollment;
     }
 
     public Status getStatus() {
@@ -62,4 +61,15 @@ public class AttendanceRecord {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "AttendanceRecord{" +
+                "id=" + id +
+                ", date=" + date +
+                ", status=" + status +
+                ", enrollmentId=" + (enrollment != null ? enrollment.getId() : "null") +
+                '}';
+    }
+
 }

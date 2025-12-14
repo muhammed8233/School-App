@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CourseRequestTest {
-    CourseRequest request = new CourseRequest();
+class CourseDtoTest {
+    CourseDto request = new CourseDto();
 
     @Test
     void testToCheckIfCourseNameIsSet(){

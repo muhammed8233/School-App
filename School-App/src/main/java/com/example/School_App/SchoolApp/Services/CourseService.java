@@ -2,7 +2,8 @@ package com.example.School_App.SchoolApp.Services;
 
 import com.example.School_App.SchoolApp.Model.Course;
 import com.example.School_App.SchoolApp.Repository.CourseRepository;
-import com.example.School_App.SchoolApp.SchoolAppDto.CourseRequest;
+import com.example.School_App.SchoolApp.SchoolAppDto.CourseDto;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,22 +21,53 @@ public class CourseService implements CourseServiceInterface {
     }
 
     @Override
-    public List<Course> getStudentCourse(){
+    public List<CourseDto> getStudentCourse(){
         List<Course> courses = courseRepository.findAll();
+        List<CourseDto> courseDto = new ArrayList<>();
 
-        return courses;
+        for (Course course : courses){
+            courseDto.add(new CourseDto(course.getCourseName(), course.getCourseCode()));
+        }
+
+        return courseDto;
     }
 
     @Override
-    public Course addNewCourse(CourseRequest courseRequest){
-        boolean exists = courseRepository.existsByCourseCode(courseRequest.getCourseCode());
+    public Course addNewCourse(CourseDto courseDto){
+        boolean exists = courseRepository.existsByCourseCode(courseDto.getCourseCode());
         if(exists){
             throw new IllegalStateException("Course already exist");
         }
         Course course = new Course();
-        course.setCourseName(courseRequest.getCourseName());
-        course.setCourseCode(courseRequest.getCourseCode());
+        course.setCourseName(courseDto.getCourseName());
+        course.setCourseCode(courseDto.getCourseCode());
          return courseRepository.save(course);
     }
 
+    @Transactional
+    @Override
+    public List<Course> saveAllCoursesFromDto(List<CourseDto> courseDto) {
+        if (courseDto == null || courseDto.isEmpty()) {
+            throw new IllegalArgumentException("Course list cannot be empty.");
+        }
+        List<Course> courses = new ArrayList<>();
+        for (CourseDto dto : courseDto) {
+            Course course = new Course(dto.getCourseName(), dto.getCourseCode());
+            courses.add(course);
+        }
+
+        return courseRepository.saveAll(courses);
+    }
+
+    public List<CourseDto> getAllCoursesAsDto() {
+        List<Course> courses = courseRepository.findAll();
+        List<CourseDto> courseDto = new ArrayList<>();
+        for (Course course : courses) {
+            courseDto.add(new CourseDto(course.getCourseName(), course.getCourseCode()));
+        }
+
+        return courseDto;
+    }
 }
+
+

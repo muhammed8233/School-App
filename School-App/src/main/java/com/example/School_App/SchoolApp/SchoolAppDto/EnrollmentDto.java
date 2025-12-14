@@ -1,0 +1,51 @@
+package com.example.School_App.SchoolApp.SchoolAppDto;
+
+
+import com.example.School_App.SchoolApp.Model.Course;
+import com.example.School_App.SchoolApp.Model.Student;
+
+public class EnrollmentDto {
+    private Long enrollmentId;
+    private Long studentId;
+    private Long courseId;
+
+
+    public EnrollmentDto(){}
+    public EnrollmentDto(Long studentId, Long courseId) {
+        this.studentId = studentId;
+        this.courseId = courseId;
+    }
+
+    public  EnrollmentDto(Long enrollmentId, Long studentId, Long courseId) {}
+
+    public EnrollmentDto(Long id, Student student, Course course) {
+    }
+
+
+    public Long getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(Long courseId) {
+        this.courseId = courseId;
+    }
+
+    public Long getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
+    }
+
+
+    public Long getEnrollmentId() {
+        return enrollmentId;
+    }
+
+    public void setEnrollmentId(Long enrollmentId) {
+        this.enrollmentId = enrollmentId;
+    }
+
+
+}

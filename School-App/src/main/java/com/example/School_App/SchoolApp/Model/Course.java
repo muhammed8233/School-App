@@ -11,23 +11,28 @@ public class Course {
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )
-    private Long courseId;
+    private Long Id;
     private String courseName;
     private String courseCode;
 
     public Course(){}
-    public Course( Long courseId, String courseName, String courseCode) {
-        this.courseId = courseId;
+    public Course(Long Id, String courseName, String courseCode) {
+        this.Id = Id;
         this.courseName = courseName;
         this.courseCode = courseCode;
     }
 
-    public Long getCourseId() {
-        return courseId;
+    public Course(String courseName, String courseCode) {
+        this.courseName = courseName;
+        this.courseCode = courseCode;
     }
 
-    public void setCourseId(Long courseId) {
-        this.courseId = courseId;
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        this.Id = id;
     }
 
     public String getCourseName() {
@@ -44,5 +49,14 @@ public class Course {
 
     public void setCourseCode(String courseCode) {
         this.courseCode = courseCode;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "courseCode='" + courseCode + '\'' +
+                ", courseId=" + Id +
+                ", courseName='" + courseName + '\'' +
+                '}';
     }
 }

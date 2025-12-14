@@ -7,8 +7,6 @@ import java.time.LocalDate;
 import java.util.Map;
 
 public interface AttendanceRecordServiceInterface {
-
-
     AttendanceRecordDto getStudentAttendance(Long studentId, Long courseId);
     void markAttendance(Long studentId, Long courseId, LocalDate date, Status status);
 }

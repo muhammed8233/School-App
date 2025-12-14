@@ -1,9 +1,7 @@
 package com.example.School_App.SchoolApp.Controller;
 
 import com.example.School_App.SchoolApp.Model.Enrollment;
-import com.example.School_App.SchoolApp.SchoolAppDto.CourseRequest;
-import com.example.School_App.SchoolApp.SchoolAppDto.EnrollmentRequest;
-import com.example.School_App.SchoolApp.SchoolAppDto.StudentDto;
+import com.example.School_App.SchoolApp.SchoolAppDto.EnrollmentDto;
 import com.example.School_App.SchoolApp.Services.EnrollmentServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,17 +19,20 @@ public class EnrollmentController {
     }
 
     @PostMapping
-    public Enrollment enrollStudentInACourse(@RequestBody EnrollmentRequest enrollmentRequest){
-         return enrollmentServiceInterface.enrollStudentInCourse(enrollmentRequest);
+    public Enrollment enrollStudentInACourse(@RequestBody EnrollmentDto enrollmentDto){
+         return enrollmentServiceInterface.enrollStudentInCourse(enrollmentDto.getStudentId(),
+                 enrollmentDto.getCourseId());
     }
     @GetMapping("/{courseId}")
-    public List<Enrollment> getAllStudentInACourse(@RequestParam Long courseId ){
+    public List<EnrollmentDto> getAllStudentInACourse(@RequestParam Long courseId ){
         return enrollmentServiceInterface.getStudentsByACourse(courseId);
     }
 
     @GetMapping("/{studentId}")
-    public List<Enrollment> getAllCourseOfAStudent(@RequestParam Long studentId){
+    public List<EnrollmentDto> getAllCourseOfAStudent(@RequestParam Long studentId,
+                                                      @RequestParam Long courseId){
         return enrollmentServiceInterface.getCourseByStudent(studentId);
     }
+
 
 }

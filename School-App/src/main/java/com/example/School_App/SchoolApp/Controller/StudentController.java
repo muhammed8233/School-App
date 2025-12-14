@@ -19,12 +19,12 @@ public class StudentController {
     }
 
     @GetMapping
-    public List<Student> getStudent(){
+    public List<StudentDto> getStudent(){
         return studentServiceInterface.getStudents();
     }
 
     @PostMapping
-    public void addNewStudent(@RequestBody StudentDto  studentDto){
-        studentServiceInterface.addNewStudent(studentDto);
+    public Student addNewStudent(@RequestBody StudentDto  studentDto){
+        return studentServiceInterface.addNewStudent(studentDto);
     }
 }

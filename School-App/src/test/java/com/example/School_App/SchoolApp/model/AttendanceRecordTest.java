@@ -21,11 +21,11 @@ class AttendanceRecordTest {
         Course course = new Course(1L, "mathematics","math111");
         Enrollment enrollment = new Enrollment(1L, student,course);
         attendance.setId(2L);
-        attendance.setEnrollmentId(enrollment);
+        attendance.setEnrollment(enrollment);
         attendance.setStatus(Status.PRESENT);
         attendance.setDate(LocalDate.of(2025, Month.DECEMBER, 9));
         assertEquals(2L,attendance.getId());
-        assertEquals(enrollment, attendance.getEnrollmentId());
+        assertEquals(enrollment, attendance.getEnrollment());
         assertEquals(Status.PRESENT, attendance.getStatus());
         assertEquals(LocalDate.of(2025, Month.DECEMBER, 9), attendance.getDate());
 

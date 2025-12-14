@@ -9,7 +9,7 @@ class CourseTest {
 
     @Test
     void testToVerifyCourseDetail(){
-        assertEquals(1L, course.getCourseId());
+        assertEquals(1L, course.getId());
         assertEquals("physics", course.getCourseName());
         assertEquals("phy101", course.getCourseCode());
     }

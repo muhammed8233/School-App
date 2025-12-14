@@ -1,8 +1,7 @@
 package com.example.School_App.SchoolApp.Controller;
 
-import com.example.School_App.SchoolApp.Enum.Assessment;
-import com.example.School_App.SchoolApp.Model.Student;
-import com.example.School_App.SchoolApp.SchoolAppDto.GradeRequest;
+import com.example.School_App.SchoolApp.Model.Grade;
+import com.example.School_App.SchoolApp.SchoolAppDto.GradeDto;
 import com.example.School_App.SchoolApp.SchoolAppDto.ScoreDto;
 import com.example.School_App.SchoolApp.Services.GradeServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +18,9 @@ public class GradeController {
     }
 
     @PostMapping("score")
-    public void recordStudentScore(@RequestBody GradeRequest gradeRequest){
-        gradeServiceInterface.recordStudentScore(gradeRequest.getStudentId(),
-                gradeRequest.getCourseId(), gradeRequest.getAssessmentType());
+    public Grade recordStudentScore(@RequestBody GradeDto gradeDto){
+       return gradeServiceInterface.recordStudentScore(gradeDto.getStudentId(),
+                gradeDto.getCourseId(), gradeDto.getAssessmentType(), gradeDto.getScore());
     }
     @GetMapping
     public ScoreDto getAllStudentScoreInACourse(@RequestParam Long studentId,

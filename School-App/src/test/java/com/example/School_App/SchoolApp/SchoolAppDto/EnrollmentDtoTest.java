@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class EnrollmentRequestTest {
-    EnrollmentRequest request = new EnrollmentRequest();
+class EnrollmentDtoTest {
+    EnrollmentDto request = new EnrollmentDto();
 
     @Test
     void testToVerifyStudentIdIsSet(){

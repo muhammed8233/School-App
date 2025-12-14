@@ -10,6 +10,7 @@ import com.example.School_App.SchoolApp.Repository.EnrollmentRepository;
 import com.example.School_App.SchoolApp.Repository.StudentRepository;
 import com.example.School_App.SchoolApp.Model.Student;
 import com.example.School_App.SchoolApp.SchoolAppDto.AttendanceRecordDto;
+import com.example.School_App.SchoolApp.SchoolAppDto.StudentDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,10 +41,10 @@ public class AttendanceRecordService implements AttendanceRecordServiceInterface
 
     @Override
     public AttendanceRecordDto getStudentAttendance(Long studentId, Long courseId) {
-        Long present = attendanceRecordRepository.countByStudentIdAndCourseIdAndStatus
+        Long present = attendanceRecordRepository.countByEnrollment_Student_IdAndEnrollment_Course_IdAndStatus
                 (studentId, courseId,Status.PRESENT);
-        Long absent = attendanceRecordRepository.countByStudentIdAndCourseIdAndStatus
-                (studentId, courseId, Status.ABSENT);
+        Long absent = attendanceRecordRepository.countByEnrollment_Student_IdAndEnrollment_Course_IdAndStatus(studentId, courseId,
+                Status.ABSENT);
 
         return new AttendanceRecordDto(studentId, courseId, present, absent);
 
@@ -64,7 +65,7 @@ public class AttendanceRecordService implements AttendanceRecordServiceInterface
                     " has been already marked today");
         }
         AttendanceRecord attendance = new AttendanceRecord();
-        attendance.setEnrollmentId(enrollment);
+        attendance.setEnrollment(enrollment);
         attendance.setDate(date);
         attendance.setStatus(status);
 

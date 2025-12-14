@@ -1,15 +1,15 @@
 package com.example.School_App.SchoolApp.SchoolAppDto;
 
-public class CourseRequest {
+public class CourseDto {
     private String courseName;
     private String courseCode;
 
-    public CourseRequest(String courseName, String courseCode) {
+    public CourseDto(String courseName, String courseCode) {
         this.courseName = courseName;
         this.courseCode = courseCode;
     }
 
-    public CourseRequest() {
+    public CourseDto() {
 
     }
 

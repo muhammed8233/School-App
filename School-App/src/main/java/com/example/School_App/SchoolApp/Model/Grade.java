@@ -1,5 +1,6 @@
 package com.example.School_App.SchoolApp.Model;
 
+import com.example.School_App.SchoolApp.Enum.Assessment;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,13 +12,12 @@ public class Grade {
     private Long id;
 
     @OneToOne
-    private Enrollment enrollmentId;
-    private com.example.School_App.SchoolApp.Enum.Assessment assessmentType;
+    private Enrollment enrollment;
+    private Assessment assessmentType;
     private double score;
 
-    public Grade(Long id, Enrollment enrollmentId, com.example.School_App.SchoolApp.Enum.Assessment assessmentType, double score) {
-        this.id = id;
-        this.enrollmentId = enrollmentId;
+    public Grade(Enrollment enrollment, Assessment assessmentType, double score) {
+        this.enrollment = enrollment;
         this.assessmentType = assessmentType;
         this.score = score;
     }
@@ -34,12 +34,12 @@ public class Grade {
         this.id = id;
     }
 
-    public Enrollment getEnrollmentId() {
-        return enrollmentId;
+    public Enrollment getEnrollment() {
+        return enrollment;
     }
 
-    public void setEnrollmentId(Enrollment enrollmentId) {
-        this.enrollmentId = enrollmentId;
+    public void setEnrollment(Enrollment enrollment) {
+        this.enrollment = enrollment;
     }
 
     public com.example.School_App.SchoolApp.Enum.Assessment getAssessmentType() {
@@ -58,5 +58,15 @@ public class Grade {
         if(score >= 0) {
             this.score = score;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Grade{" +
+                "assessmentType=" + assessmentType +
+                ", id=" + id +
+                ", enrollmentId=" + enrollment +
+                ", score=" + score +
+                '}';
     }
 }

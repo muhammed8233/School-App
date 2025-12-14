@@ -1,9 +1,8 @@
 package com.example.School_App.SchoolApp.SchoolAppDto;
 
 import com.example.School_App.SchoolApp.Enum.Assessment;
-import com.example.School_App.SchoolApp.Model.Grade;
 
-public class GradeRequest {
+public class GradeDto {
    private Long studentId;
    private Long courseId;
    private double score;
@@ -11,7 +10,7 @@ public class GradeRequest {
 
 
 
-    public GradeRequest() {
+    public GradeDto() {
 
     }
 

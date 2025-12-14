@@ -3,6 +3,7 @@ package com.example.School_App.SchoolApp.Services;
 import com.example.School_App.SchoolApp.Repository.StudentRepository;
 import com.example.School_App.SchoolApp.Model.Student;
 import com.example.School_App.SchoolApp.SchoolAppDto.StudentDto;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,16 +33,43 @@ public class StudentService implements StudentServiceInterface {
     }
 
     @Override
-    public List<Student> getStudents() {
+    public List<StudentDto> getStudents() {
         List<Student> students = studentRepository.findAll();
+        List<StudentDto> studentDto = new ArrayList<>();
 
-        return students;
+        for (Student student : students){
+            studentDto.add(new StudentDto(student.getName(),
+                    student.getEmail(), student.getClassName()));
+        }
+
+        return studentDto;
     }
 
+    @Transactional
+    @Override
+    public List<Student> saveAllStudents(List<StudentDto> studentDto){
+        if(studentDto == null || studentDto.isEmpty() ){
+            throw new IllegalStateException("student dto can not be empty");
+        }
+        List<Student> students = new ArrayList<>();
 
+        for (StudentDto dto : studentDto){
+            Student student = new Student(dto.getName(), dto.getEmail(), dto.getClassName());
+            students.add(student);
+        }
+        return studentRepository.saveAll(students);
+    }
+
+    private List<StudentDto> getAllStudentAsDto(){
+        List<Student> students = studentRepository.findAll();
+        List<StudentDto> studentDto = new ArrayList<>();
+
+        for(Student student : students){
+            studentDto.add(new StudentDto(student.getName(), student.getEmail(), student.getClassName()));
+        }
+
+        return studentDto;
+    }
 
 }
-
-
-
 

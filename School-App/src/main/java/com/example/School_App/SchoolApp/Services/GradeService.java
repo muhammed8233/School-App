@@ -9,11 +9,13 @@ import com.example.School_App.SchoolApp.Repository.CourseRepository;
 import com.example.School_App.SchoolApp.Repository.EnrollmentRepository;
 import com.example.School_App.SchoolApp.Repository.GradeRepository;
 import com.example.School_App.SchoolApp.Repository.StudentRepository;
-import com.example.School_App.SchoolApp.SchoolAppDto.GradeRequest;
+import com.example.School_App.SchoolApp.SchoolAppDto.GradeDto;
 import com.example.School_App.SchoolApp.SchoolAppDto.ScoreDto;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +41,7 @@ public class GradeService implements GradeServiceInterface {
     }
 
     @Override
-    public void recordStudentScore(Long studentId, Long courseId, Assessment type) {
+    public Grade recordStudentScore(Long studentId, Long courseId, Assessment type, double score) {
         Student student = studentRepository.findById(studentId).orElseThrow(()
                 -> new RuntimeException("Student with Id "+ studentId + "not found") );
         Course course = courseRepository.findById(courseId).orElseThrow(()
@@ -47,7 +49,7 @@ public class GradeService implements GradeServiceInterface {
 
         Enrollment enrollment = enrollmentRepository.findByStudentAndCourse(student, course);
         if(gradeRepository.existsByEnrollment(enrollment)){
-            throw new RuntimeException("Enrollment not found");
+            throw new RuntimeException("the student has been enrolled in this course ");
         }
         Optional<Enrollment> existingEnrollment = gradeRepository.
                 existsByEnrollmentAndAssessmentType(enrollment, type);
@@ -56,9 +58,10 @@ public class GradeService implements GradeServiceInterface {
         }
 
         Grade grade = new Grade();
-        grade.setEnrollmentId(enrollment);
+        grade.setEnrollment(enrollment);
         grade.setAssessmentType(type);
-        gradeRepository.save(grade);
+        grade.setScore(score);
+       return gradeRepository.save(grade);
 
     }
 
@@ -90,7 +93,21 @@ public class GradeService implements GradeServiceInterface {
             }
         }
         return 0.4 * testScore + 0.6 * examScore;
-
     }
 
+    @Transactional
+    @Override
+    public List<Grade> saveAllGradesFromDto(List<GradeDto> gradeRequests) {
+        List<Grade> savedGrades = new ArrayList<>();
+
+        for (GradeDto request : gradeRequests) {
+            Grade savedGrade = recordStudentScore(request.getStudentId(),
+                    request.getCourseId(), request.getAssessmentType(), request.getScore());
+
+            savedGrades.add(savedGrade);
+        }
+        return gradeRepository.saveAll(savedGrades);
+    }
 }
+
+
