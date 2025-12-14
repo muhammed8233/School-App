@@ -14,6 +14,12 @@ public class GradeDto {
 
     }
 
+    public GradeDto(Long studentId, Long courseId, Assessment assessmentType, double score) {
+        this.studentId = studentId;
+        this.courseId = courseId;
+        this.assessmentType = assessmentType;
+    }
+
     public Assessment getAssessmentType() {
         return assessmentType;
     }

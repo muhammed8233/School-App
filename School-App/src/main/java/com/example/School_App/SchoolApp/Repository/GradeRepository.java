@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface GradeRepository extends JpaRepository<Grade, Long> {
     boolean existsByEnrollment(Enrollment enrollment);
 
-    Optional<Enrollment> existsByEnrollmentAndAssessmentType(Enrollment enrollment, Assessment assessment);
+    boolean existsByEnrollmentAndAssessmentType(Enrollment enrollment, Assessment assessmentType);
 
     Optional<Grade> findById(Long studentId, Long courseId, Assessment assessment);
 

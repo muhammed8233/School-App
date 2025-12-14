@@ -51,10 +51,10 @@ public class GradeService implements GradeServiceInterface {
         if(gradeRepository.existsByEnrollment(enrollment)){
             throw new RuntimeException("the student has been enrolled in this course ");
         }
-        Optional<Enrollment> existingEnrollment = gradeRepository.
+        boolean existingEnrollment = gradeRepository.
                 existsByEnrollmentAndAssessmentType(enrollment, type);
-        if (existingEnrollment.isPresent()){
-            throw new RuntimeException(" the student score has been recorded");
+        if (existingEnrollment){
+            throw new RuntimeException(" the student score has been recorded for this assessment type");
         }
 
         Grade grade = new Grade();

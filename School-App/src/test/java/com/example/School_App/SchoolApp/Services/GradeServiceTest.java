@@ -35,19 +35,19 @@ class GradeServiceTest {
     private EnrollmentRepository enrollmentRepository;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         gradeRepository.deleteAll();
     }
 
     @Test
-    void testToSetGradeOfAStudent(){
+    void testToSetGradeOfAStudent() {
         Student student = new Student("musa", "musa@gmail.com", "ss1");
         studentRepository.save(student);
-            Course course = new Course("physics","phy101");
-            courseRepository.save(course);
+        Course course = new Course("physics", "phy101");
+        courseRepository.save(course);
         Enrollment enrollment = new Enrollment();
         enrollment.setStudent(student);
-        enrollment.setCourse( course);
+        enrollment.setCourse(course);
         enrollmentRepository.save(enrollment);
         Grade testGrade = new Grade();
         testGrade.setAssessmentType(Assessment.TEST);
@@ -56,7 +56,7 @@ class GradeServiceTest {
 
 
         Grade grade = gradeService.recordStudentScore(testGrade.getEnrollment().getStudent().getId(),
-                testGrade.getEnrollment().getCourse().getId(),testGrade.getAssessmentType(), testGrade.getScore());
+                testGrade.getEnrollment().getCourse().getId(), testGrade.getAssessmentType(), testGrade.getScore());
 
         assertNotNull(grade);
         assertEquals(1, grade.getEnrollment().getStudent().getId());
@@ -65,33 +65,6 @@ class GradeServiceTest {
 
 
     }
-
-//    @Test
-//    void testToSetGrade() {
-//
-//        Student savedStudent = studentRepository.save(new Student("musa", "musa@gmail.com", "ss1"));
-//        Course savedCourse = courseRepository.save(new Course("physics", "phy101"));
-//
-//        Enrollment enrollmentToGrade = new Enrollment();
-//        enrollmentToGrade.setStudent(savedStudent);
-//        enrollmentToGrade.setCourse(savedCourse);
-//
-//        Enrollment savedEnrollment = enrollmentRepository.save(enrollmentToGrade);
-//
-//        int expectedScore = 50;
-//        Assessment assessmentType = Assessment.TEST;
-//
-//        Grade grade = gradeService.recordStudentScore(
-//                savedStudent.getId(),
-//                savedCourse.getId(),
-//                assessmentType, expectedScore
-//        );
-//        assertNotNull(grade);
-//        assertEquals(savedStudent.getId(), grade.getEnrollment().getStudent().getId());
-//        assertEquals(expectedScore, grade.getScore());
-//        assertEquals(Assessment.TEST, grade.getAssessmentType());
-//
-//    }
 }
 
 

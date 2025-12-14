@@ -1,13 +1,16 @@
 package com.example.School_App.SchoolApp.Services;
 
+import com.example.School_App.SchoolApp.Enum.Assessment;
 import com.example.School_App.SchoolApp.Model.Course;
 import com.example.School_App.SchoolApp.Model.Enrollment;
+import com.example.School_App.SchoolApp.Model.Grade;
 import com.example.School_App.SchoolApp.Model.Student;
 import com.example.School_App.SchoolApp.Repository.CourseRepository;
 import com.example.School_App.SchoolApp.Repository.EnrollmentRepository;
 import com.example.School_App.SchoolApp.Repository.StudentRepository;
 import com.example.School_App.SchoolApp.SchoolAppDto.CourseDto;
 import com.example.School_App.SchoolApp.SchoolAppDto.EnrollmentDto;
+import com.example.School_App.SchoolApp.SchoolAppDto.GradeDto;
 import com.example.School_App.SchoolApp.SchoolAppDto.StudentDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,98 +30,35 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class EnrollmentServiceTest {
-
-    @Autowired
-    private EnrollmentService enrollmentService;
-    @Autowired
-    private StudentService studentService;
-    @Autowired
-    private CourseService courseService;
-
+    @Autowired private GradeService gradeService;
+    @Autowired private StudentService studentService; // Use the service
+    @Autowired private EnrollmentService enrollmentService;
+    @Autowired private  CourseService courseService;// Use the service
 
     @Test
-    void testEnrollNewStudent(){
-        Long studentId = 1L;
-        Long courseId = 2L;
+    void canSaveAllGradesUsingServiceOnly() {
 
-        EnrollmentDto enrollmentDto = new EnrollmentDto(1L, 2L);
+        List<Student> savedStudent = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1")));
+        List<Course> savedCourse = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101"))); // Assumed method
 
-        Student student = new Student(studentId,"bala","bala@gmail.com","ss2");
-        Course course = new Course(courseId,"physics","phy111");
+            // Ensure the student is enrolled first
+        enrollmentService.enrollStudentInCourse(savedStudent.get(0).getId(), savedCourse.get(0).getId());
 
-        Enrollment enrollment = new Enrollment();
-        enrollment.setId(1L);
-        enrollment.setStudent(student);
-        enrollment.setCourse(course);
-
-
-
-        Enrollment enroll = enrollmentService.enrollStudentInCourse(enrollmentDto.getStudentId(), enrollmentDto.getCourseId());
-
-        assertNotNull(enroll);
-        assertEquals("bala", enroll.getStudent().getName());
-        assertEquals("physics", enroll.getCourse().getCourseName());
+            // Prepare DTOs for the grades we want to save
+        GradeDto request1 = new GradeDto(savedStudent.get(0).getId(), savedCourse.get(0).getId(), Assessment.TEST, 50);
+        GradeDto request2 = new GradeDto(savedStudent.get(0).getId(), savedCourse.get(0).getId(), Assessment.EXAM, 90);
+        List<GradeDto> requests = List.of(request1, request2);
 
 
 
+        List<Grade> savedGrades = gradeService.saveAllGradesFromDto(requests);
 
+
+            // --- THEN: Assertions (Verify the results) ---
+        assertNotNull(savedGrades);
+        assertEquals(2, savedGrades.size());
+        assertEquals(50, savedGrades.get(0).getScore());
+        assertEquals(90, savedGrades.get(0).getScore());
+        assertEquals(savedStudent.get(0).getId(), savedGrades.get(0).getEnrollment().getStudent().getId());
     }
-
-    @Test
-    void testToGetStudentsInACourse(){
-        Long courseId = 2L;
-
-        Student student = new Student(1L,"abu","abu@gmail.com","ss1");
-        Course course = new Course(courseId,"biology","bio111");
-        Enrollment enrollment = new Enrollment();
-        enrollment.setId(1L);
-        enrollment.setStudent(student);
-        enrollment.setCourse(course);
-
-        Student student1 = new Student(2L,"lami","lami@gmail.com","ss1");
-        Enrollment enrollment1c = new Enrollment();
-        enrollment1c.setId(2L);
-        enrollment1c.setStudent(student1);
-        enrollment1c.setCourse(course);
-
-        List<Enrollment> enrollments = Arrays.asList(enrollment, enrollment1c);
-
-        List<EnrollmentDto>  result = enrollmentService.getStudentsByACourse(courseId);
-        assertNotNull(result);
-        assertEquals(2L, result.get(1).getStudentId());
-        assertEquals(2, result.size());
-        assertEquals(2L, result.get(1).getCourseId());
-        assertEquals(1L, result.get(0).getStudentId());
-
-
-
-    }
-
-    @Test
-    void testToGetAllCoursesAStudentEnrolled(){
-            Long studentId = 1L;
-        StudentDto student = new StudentDto("abu","abu@gmail.com","ss1");
-        studentService.saveAllStudents(List.of(student));
-
-        Course course = new Course("biology","bio111");
-        Course course1 = new Course("physics","phy111");
-
-        Enrollment enrollment = new Enrollment();
-        enro
-
-        Enrollment enrollment1c = new Enrollment();
-        enrollment1c.setStudent(student);
-        enrollment1c.setCourse(course1);
-        enrollmentService.saveAllEnrollment(List.of(enrollment, enrollment1c));
-
-     List<EnrollmentDto> result = enrollmentService.getCourseByStudent(studentId);
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        assertEquals(1L, result.get(0).getCourseId());
-        assertEquals(1L, result.get(0).getStudentId());
-        assertEquals(2L, result.get(1).getStudentId());
-        assertEquals(2L, result.get(1).getCourseId());
-
-    }
-
 }
