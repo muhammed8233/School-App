@@ -98,6 +98,10 @@ public class GradeService implements GradeServiceInterface {
     @Transactional
     @Override
     public List<Grade> saveAllGradesFromDto(List<GradeDto> gradeRequests) {
+        if (gradeRequests == null || gradeRequests.isEmpty()) {
+            throw new IllegalArgumentException("Grade list cannot be empty.");
+        }
+
         List<Grade> savedGrades = new ArrayList<>();
 
         for (GradeDto request : gradeRequests) {
@@ -106,8 +110,9 @@ public class GradeService implements GradeServiceInterface {
 
             savedGrades.add(savedGrade);
         }
-        return gradeRepository.saveAll(savedGrades);
+        return savedGrades;
     }
+
 }
 
 

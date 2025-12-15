@@ -72,7 +72,7 @@ class GradeServiceTest {
 
     @Test
     void testToRecordStudentScoreSuccessfully() {
-       List<Student> savedStudent = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1")));
+        List<Student> savedStudent = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1")));
         List<Course> savedCourse = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));
 
         enrollmentService.enrollStudentInCourse(savedStudent.get(0).getId(), savedCourse.get(0).getId());
@@ -93,8 +93,71 @@ class GradeServiceTest {
         assertEquals(savedStudent.get(0).getId(), foundGrade.get().getEnrollment().getStudent().getId());
     }
 
+//    @Test
+//    void testToComputeFinalScoreForStudent() {
+//        List<Student> savedStudent = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1")));
+//        List<Course> savedCourse = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));
+//
+//
+//        List<EnrollmentDto> enrollment = List.of(new EnrollmentDto(savedStudent.get(0).getId(), savedCourse.get(0).getId()));
+//        enrollmentService.saveAllEnrollments(enrollment); // Assuming you have a ba
+//
+//        Long enrollmentId = enrollment.get(0).getEnrollmentId();
+//
+//
+//        GradeDto testGrade = new GradeDto();
+//        testGrade.setStudentId(1L);
+//        testGrade.setAssessmentType(Assessment.TEST);
+//        testGrade.setScore(50.0);
+//
+//        GradeDto examGrade = new GradeDto();
+//        examGrade.setStudentId(1L);
+//        examGrade.setAssessmentType(Assessment.EXAM);
+//        examGrade.setScore(90.0);
+//        gradeService.saveAllGradesFromDto(List.of(testGrade, examGrade));
+//
+//
+//        double expectedFinalScore = 74.0;
+//
+//        double actualFinalScore = gradeService.computeFinalScore(enrollmentId);
+//
+//        assertEquals(expectedFinalScore, actualFinalScore, 0.001);
+//    }
+//
 
+
+
+
+    @Test
+    void testToComputeFinalScoreForStudent() {
+        List<Student> savedStudents = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1")));
+        Student savedStudent = savedStudents.get(0);
+
+        List<Course> savedCourses = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));
+        Course savedCourse = savedCourses.get(0);
+
+        List<EnrollmentDto> enrollmentRequests = List.of(
+                new EnrollmentDto(savedStudent.getId(), savedCourse.getId()));
+
+
+        List<Enrollment> persistedEnrollments = enrollmentService.saveAllEnrollments(enrollmentRequests);
+
+        Long enrollmentId = persistedEnrollments.get(0).getId();
+
+        GradeDto testGradeDto = new GradeDto(savedStudent.getId(), savedCourse.getId(), Assessment.TEST, 50.0);
+        GradeDto examGradeDto = new GradeDto(savedStudent.getId(), savedCourse.getId(), Assessment.EXAM, 90.0);
+        List<Grade> grades = gradeService.saveAllGradesFromDto(List.of(testGradeDto, examGradeDto));
+
+        double expectedFinalScore = 74.0;
+
+
+        double actualFinalScore = gradeService.computeFinalScore(enrollmentId);
+
+        assertEquals(expectedFinalScore, actualFinalScore, 0.001);
+    }
 }
+
+
 
 
 
