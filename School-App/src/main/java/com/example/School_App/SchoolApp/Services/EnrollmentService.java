@@ -47,6 +47,20 @@ public class EnrollmentService implements EnrollmentServiceInterface{
        return enrollments;
     }
 
+    @Override
+    public List<EnrollmentDto> getCourseByStudent(Long studentId) {
+        return List.of();
+    }
+
+    @Override
+    public Enrollment findEnrollmentByStudentAndCourse(Student student, Course course) {
+        return enrollmentRepository.findByStudentAndCourse(student, course);
+    }
+
+    public List<Enrollment> getAllEnrollments() {
+        return enrollmentRepository.findAll();
+    }
+
     public List<EnrollmentDto> getAllEnrollment(){
         List<Enrollment> enrollments = enrollmentRepository.findAll();
         List<EnrollmentDto> enrollmentDto = new ArrayList<>();
@@ -55,35 +69,32 @@ public class EnrollmentService implements EnrollmentServiceInterface{
             enrollmentDto.add(new EnrollmentDto(enrollment.getStudent().getId(),
                     enrollment.getCourse().getId()));
         }
+
         return enrollmentDto;
     }
 
-        @Override
-        @Transactional
-        public Enrollment enrollStudentInCourse(Long studentId, Long courseId){
-            Student student = studentRepository.findById(studentId)
-                    .orElseThrow(() -> new IllegalStateException("student with id " + studentId + " not found"));
-            Course course = courseRepository.findById(courseId)
-                    .orElseThrow(() -> new IllegalStateException("Course with id " + courseId + " not found"));
+    @Transactional
+    @Override
+    public Enrollment enrollStudentInCourse(Long studentId, Long courseId) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalStateException("student with id " + studentId + " not found"));
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new IllegalStateException("Course with id " + courseId + " not found"));
 
-            if (enrollmentRepository.existsByStudentAndCourse(student, course)){
-                throw new RuntimeException("Student is already enrolled in this course");
-            }
-
-            Enrollment enrollment = new Enrollment();
-            enrollment.setStudent(student);
-            enrollment.setCourse(course);
-            return enrollmentRepository.save(enrollment);
+        if (enrollmentRepository.existsByStudentAndCourse(student, course)) {
+            throw new RuntimeException("Student is already enrolled in this course");
         }
+
+        Enrollment enrollment = new Enrollment();
+        enrollment.setStudent(student);
+        enrollment.setCourse(course);
+        return enrollmentRepository.save(enrollment);
+    }
+
 
     @Override
     public List<EnrollmentDto> getStudentsByACourse(Long courseId) {
-        return List.of();
-    }
-
-    @Override
-    public List<EnrollmentDto> getCourseByStudent(Long studentId) {
-        List<Enrollment> enrollments = enrollmentRepository.findByStudentId(studentId);
+        List<Enrollment> enrollments = enrollmentRepository.findAll();
         List<EnrollmentDto> enrollmentDtoList = new ArrayList<>();
         for (Enrollment enrollment : enrollments) {
             enrollmentDtoList.add(new EnrollmentDto(
@@ -94,7 +105,4 @@ public class EnrollmentService implements EnrollmentServiceInterface{
         }
         return enrollmentDtoList;
     }
-
-
-
 }

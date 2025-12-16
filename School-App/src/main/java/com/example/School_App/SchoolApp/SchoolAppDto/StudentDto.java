@@ -38,4 +38,13 @@ public class StudentDto {
     public void setClassName(String className) {
         this.className = className;
     }
+
+    @Override
+    public String toString() {
+        return "StudentDto{" +
+                "className='" + className + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

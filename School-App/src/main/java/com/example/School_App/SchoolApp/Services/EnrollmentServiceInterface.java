@@ -1,6 +1,8 @@
 package com.example.School_App.SchoolApp.Services;
 
+import com.example.School_App.SchoolApp.Model.Course;
 import com.example.School_App.SchoolApp.Model.Enrollment;
+import com.example.School_App.SchoolApp.Model.Student;
 import com.example.School_App.SchoolApp.SchoolAppDto.EnrollmentDto;
 import jakarta.transaction.Transactional;
 
@@ -12,9 +14,11 @@ public interface EnrollmentServiceInterface {
 
     List<EnrollmentDto> getStudentsByACourse(Long courseId);
 
-    List<EnrollmentDto> getCourseByStudent(Long studentId);
     @Transactional
     List<Enrollment> saveAllEnrollments(List<EnrollmentDto> enrollmentDto);
 
 
+    List<EnrollmentDto> getCourseByStudent(Long studentId);
+
+    Enrollment findEnrollmentByStudentAndCourse(Student student, Course course);
 }

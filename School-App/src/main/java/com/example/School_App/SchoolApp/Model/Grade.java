@@ -11,8 +11,11 @@ public class Grade {
     )
     private Long id;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "enrollment_id", nullable = false)
     private Enrollment enrollment;
+
+    @Enumerated(EnumType.STRING)
     private Assessment assessmentType;
     private double score;
 
@@ -55,9 +58,8 @@ public class Grade {
     }
 
     public void setScore(double score) {
-        if(score >= 0) {
-            this.score = score;
-        }
+        this.score = score;
+
     }
 
     @Override

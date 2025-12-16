@@ -12,11 +12,9 @@ public class AttendanceRecordDto {
     private Status status;
     private LocalDate date;
 
-    public AttendanceRecordDto(Long studentId, Long courseId, Long present, Long absent) {
-        this.studentId =studentId;
+    public AttendanceRecordDto( Long present, Long absent) {
         this.present = present;
         this.absent = absent;
-        this.courseId = courseId;
     }
 
     public AttendanceRecordDto() {

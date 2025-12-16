@@ -18,6 +18,8 @@ public class GradeDto {
         this.studentId = studentId;
         this.courseId = courseId;
         this.assessmentType = assessmentType;
+        this.score = score;
+
     }
 
     public Assessment getAssessmentType() {
@@ -41,6 +43,7 @@ public class GradeDto {
     }
 
     public void setScore(double score) {
+        score = 10.9;
         this.score = score;
     }
 

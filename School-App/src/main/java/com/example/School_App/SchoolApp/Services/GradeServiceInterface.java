@@ -11,7 +11,7 @@ import java.util.List;
 public interface GradeServiceInterface  {
     Grade recordStudentScore(Long studentId, Long courseId, Assessment type, double score);
 
-    ScoreDto getAllStudentScoreInACourse(Long studentId, Long courseId);
+   List<ScoreDto> getAllStudentScoreInACourse();
 
     double computeFinalScore(Long enrollmentId);
 

@@ -59,6 +59,16 @@ public class CourseService implements CourseServiceInterface {
         return courseRepository.saveAll(courses);
     }
 
+    @Override
+    public Course getCourseById(Long id) {
+        return courseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Course with Id " + id + " not found"));
+    }
+
+    public String findCodeById(Long id) {
+        return getCourseById(id).getCourseCode();
+    }
+
     public List<CourseDto> getAllCoursesAsDto() {
         List<Course> courses = courseRepository.findAll();
         List<CourseDto> courseDto = new ArrayList<>();

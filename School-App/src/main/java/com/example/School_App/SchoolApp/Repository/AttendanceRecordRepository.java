@@ -12,7 +12,6 @@ import java.util.List;
 
 public interface AttendanceRecordRepository extends JpaRepository<AttendanceRecord, Long> {
     boolean existsByEnrollmentAndDate(Enrollment enrollment, LocalDate today);
-
-    Long countByEnrollment_Student_IdAndEnrollment_Course_IdAndStatus(Long studentId, Long courseId, Status status);
+    Long countByStatus(Status status);
 }
 

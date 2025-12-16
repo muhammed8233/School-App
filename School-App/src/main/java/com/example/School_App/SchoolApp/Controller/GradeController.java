@@ -7,11 +7,13 @@ import com.example.School_App.SchoolApp.Services.GradeServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping(path = "grade")
+@RequestMapping(path = "api/v1/grade")
 public class GradeController {
-    @Autowired
-    private final GradeServiceInterface gradeServiceInterface;
+
+    @Autowired private final GradeServiceInterface gradeServiceInterface;
 
     public GradeController(GradeServiceInterface gradeServiceInterface){
         this.gradeServiceInterface = gradeServiceInterface;
@@ -19,17 +21,25 @@ public class GradeController {
 
     @PostMapping("score")
     public Grade recordStudentScore(@RequestBody GradeDto gradeDto){
-       return gradeServiceInterface.recordStudentScore(gradeDto.getStudentId(),
+        return gradeServiceInterface.recordStudentScore(gradeDto.getStudentId(),
                 gradeDto.getCourseId(), gradeDto.getAssessmentType(), gradeDto.getScore());
     }
-    @GetMapping
-    public ScoreDto getAllStudentScoreInACourse(@RequestParam Long studentId,
-                                                @RequestParam Long courseId){
-        return gradeServiceInterface.getAllStudentScoreInACourse(studentId, courseId);
+
+
+    @GetMapping("all-scores")
+    public List<ScoreDto> getAllStudentScoreInACourse(){
+        return gradeServiceInterface.getAllStudentScoreInACourse();
     }
 
-    @GetMapping("/{enrollmentId}")
+
+    @GetMapping("/{enrollmentId}/final-score")
     public double getFinalScore(@PathVariable Long enrollmentId){
         return gradeServiceInterface.computeFinalScore(enrollmentId);
+    }
+
+
+    @PostMapping("save")
+    public List<Grade> saveAllGrade(@RequestBody List<GradeDto> gradeDtoList){
+        return gradeServiceInterface.saveAllGradesFromDto(gradeDtoList);
     }
 }

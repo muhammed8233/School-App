@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -40,18 +42,19 @@ public class AttendanceRecordService implements AttendanceRecordServiceInterface
     }
 
     @Override
-    public AttendanceRecordDto getStudentAttendance(Long studentId, Long courseId) {
-        Long present = attendanceRecordRepository.countByEnrollment_Student_IdAndEnrollment_Course_IdAndStatus
-                (studentId, courseId,Status.PRESENT);
-        Long absent = attendanceRecordRepository.countByEnrollment_Student_IdAndEnrollment_Course_IdAndStatus(studentId, courseId,
+    public AttendanceRecordDto getStudentAttendance() {
+
+        Long present = attendanceRecordRepository.countByStatus
+                (Status.PRESENT);
+        Long absent = attendanceRecordRepository.countByStatus(
                 Status.ABSENT);
 
-        return new AttendanceRecordDto(studentId, courseId, present, absent);
+        return new AttendanceRecordDto(present, absent);
 
     }
 
     @Override
-    public void markAttendance(Long studentId, Long courseId, LocalDate date, Status status) {
+    public AttendanceRecord markAttendance(Long studentId, Long courseId, LocalDate date, Status status) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
 
@@ -69,7 +72,22 @@ public class AttendanceRecordService implements AttendanceRecordServiceInterface
         attendance.setDate(date);
         attendance.setStatus(status);
 
-        attendanceRecordRepository.save(attendance);
+       return attendanceRecordRepository.save(attendance);
 
+    }
+
+    @Override
+    public List<AttendanceRecord> saveAllAttendanceRecords(List<AttendanceRecordDto> attendanceRecordDtoList) {
+        if(attendanceRecordDtoList == null || attendanceRecordDtoList.isEmpty()){
+            throw new RuntimeException("attendance record can not be empty");
+        }
+        List<AttendanceRecord> records = new ArrayList<>();
+
+        for (AttendanceRecordDto dto : attendanceRecordDtoList){
+            AttendanceRecord record = markAttendance(dto.getStudentId(), dto.getCourseId(),
+                    dto.getDate(), dto.getStatus());
+            records.add(record);
+        }
+        return attendanceRecordRepository.saveAll(records);
     }
 }

@@ -13,4 +13,7 @@ public interface CourseServiceInterface {
 
     @Transactional
     List<Course> saveAllCoursesFromDto(List<CourseDto> courseDto);
+
+    Course getCourseById(Long courseId);
 }
+

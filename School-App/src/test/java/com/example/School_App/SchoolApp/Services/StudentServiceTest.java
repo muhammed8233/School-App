@@ -57,9 +57,12 @@ class StudentServiceTest {
         List<StudentDto> result = studentService.getStudents();
 
         assertNotNull(result);
+        System.out.println(result.get(0));
+        System.out.println(result.get(1));
         assertEquals(2,result.size());
         assertEquals("musa@hotmail.com", result.get(1).getEmail());
         assertEquals("bala", result.get(0).getName());
+        assertEquals("musa", result.get(1).getName());
 
     }
 }

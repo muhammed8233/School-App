@@ -1,15 +1,17 @@
 package com.example.School_App.SchoolApp.Controller;
 
 import com.example.School_App.SchoolApp.Enum.Status;
+import com.example.School_App.SchoolApp.Model.AttendanceRecord;
 import com.example.School_App.SchoolApp.SchoolAppDto.AttendanceRecordDto;
 import com.example.School_App.SchoolApp.Services.AttendanceRecordServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
-@RequestMapping(path = "attendance")
+@RequestMapping(path = "api/v1/attendance")
 public class AttendanceController {
     private final AttendanceRecordServiceInterface attendanceRecordServiceInterface;
 
@@ -18,19 +20,22 @@ public class AttendanceController {
         this.attendanceRecordServiceInterface = attendanceRecordServiceInterface;
     }
 
-    @GetMapping(path = "/{studentId}/{courseId}")
-    public AttendanceRecordDto getStudentAttendance(
-            @RequestParam Long studentId,
-            @RequestParam Long courseId){
+    @GetMapping
+    public AttendanceRecordDto getStudentAttendance(){
         return attendanceRecordServiceInterface.
-                getStudentAttendance(studentId, courseId);
+                getStudentAttendance();
     }
 
-    @PostMapping
+    @PostMapping("/mark/student/{studentId}/course/ {courseId}/status")
     public void markAttendance(@RequestBody AttendanceRecordDto recordDto) {
          attendanceRecordServiceInterface.markAttendance(recordDto.getStudentId(),
                  recordDto.getCourseId(), recordDto.getDate(), recordDto.getStatus());
 
+    }
+    @PostMapping("save")
+    public List<AttendanceRecord> saveAllAttendanceRecords(@RequestBody List<AttendanceRecordDto>
+                                                                      attendanceRecordDtoList){
+        return saveAllAttendanceRecords(attendanceRecordDtoList);
     }
 
 }

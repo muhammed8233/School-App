@@ -1,7 +1,6 @@
 package com.example.School_App.SchoolApp.Controller;
 
 import com.example.School_App.SchoolApp.Model.Student;
-import com.example.School_App.SchoolApp.SchoolAppDto.CourseDto;
 import com.example.School_App.SchoolApp.SchoolAppDto.StudentDto;
 import com.example.School_App.SchoolApp.Services.StudentServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "student")
+@RequestMapping(path = "api/v1/student")
 public class StudentController {
-    @Autowired
-    private final StudentServiceInterface studentServiceInterface;
+
+    @Autowired private final StudentServiceInterface studentServiceInterface;
 
     public StudentController(StudentServiceInterface studentServiceInterface){
         this.studentServiceInterface = studentServiceInterface;
@@ -28,7 +27,8 @@ public class StudentController {
     public Student addNewStudent(@RequestBody StudentDto  studentDto){
         return studentServiceInterface.addNewStudent(studentDto);
     }
-    @PostMapping("save course")
+
+    @PostMapping("save")
     public List<Student> uploadStudent(@RequestBody List<StudentDto> studentDtoS){
         return studentServiceInterface.saveAllStudents(studentDtoS);
     }

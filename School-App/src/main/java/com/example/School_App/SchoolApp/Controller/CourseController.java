@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "course")
+@RequestMapping(path = "api/v1/course")
 public class CourseController {
     @Autowired
     private final CourseServiceInterface courseServiceInterface;
@@ -29,7 +29,7 @@ public class CourseController {
         return courseServiceInterface.addNewCourse(courseDto);
     }
 
-    @PostMapping("/batch-save")
+    @PostMapping("save")
     public List<Course> uploadCourses(@RequestBody List<CourseDto> courseDtoList) {
         return courseServiceInterface.saveAllCoursesFromDto(courseDtoList);
     }

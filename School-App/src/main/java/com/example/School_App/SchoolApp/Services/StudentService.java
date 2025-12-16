@@ -60,6 +60,17 @@ public class StudentService implements StudentServiceInterface {
         return studentRepository.saveAll(students);
     }
 
+    @Override
+    public Student getStudentById(Long id) {
+        return studentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student with Id " + id + " not found"));
+    }
+
+    // Assumed method for the DTO mapping
+    public String findNameById(Long id) {
+        return getStudentById(id).getName();
+    }
+
     private List<StudentDto> getAllStudentAsDto(){
         List<Student> students = studentRepository.findAll();
         List<StudentDto> studentDto = new ArrayList<>();

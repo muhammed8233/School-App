@@ -14,4 +14,6 @@ public interface StudentServiceInterface { ;
 
     @Transactional
     List<Student> saveAllStudents(List<StudentDto> studentDto);
+
+    Student getStudentById(Long studentId);
 }
