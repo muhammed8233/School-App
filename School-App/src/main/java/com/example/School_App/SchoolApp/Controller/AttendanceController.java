@@ -20,22 +20,23 @@ public class AttendanceController {
         this.attendanceRecordServiceInterface = attendanceRecordServiceInterface;
     }
 
-    @GetMapping
-    public AttendanceRecordDto getStudentAttendance(){
+    @GetMapping("/student/{studentId}/course/{courseId}")
+    public AttendanceRecordDto getStudentAttendance(@PathVariable Long studentId,
+                                                    @PathVariable Long courseId){
         return attendanceRecordServiceInterface.
-                getStudentAttendance();
+                getStudentAttendance(studentId, courseId);
     }
 
-    @PostMapping("/mark/student/{studentId}/course/ {courseId}/status")
+    @PostMapping("/mark")
     public void markAttendance(@RequestBody AttendanceRecordDto recordDto) {
          attendanceRecordServiceInterface.markAttendance(recordDto.getStudentId(),
                  recordDto.getCourseId(), recordDto.getDate(), recordDto.getStatus());
 
     }
     @PostMapping("save")
-    public List<AttendanceRecord> saveAllAttendanceRecords(@RequestBody List<AttendanceRecordDto>
+    public List<AttendanceRecord> saveAllAttendanceRecord(@RequestBody List<AttendanceRecordDto>
                                                                       attendanceRecordDtoList){
-        return saveAllAttendanceRecords(attendanceRecordDtoList);
+        return attendanceRecordServiceInterface.saveAllAttendanceRecords(attendanceRecordDtoList);
     }
 
 }

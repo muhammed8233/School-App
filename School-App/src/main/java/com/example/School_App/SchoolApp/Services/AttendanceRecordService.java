@@ -42,16 +42,31 @@ public class AttendanceRecordService implements AttendanceRecordServiceInterface
     }
 
     @Override
-    public AttendanceRecordDto getStudentAttendance() {
+    public AttendanceRecordDto getStudentAttendance(Long studentId, Long courseId) {
+        Long present = attendanceRecordRepository.countByEnrollmentStudentIdAndEnrollmentCourseIdAndStatus(
+                studentId, courseId, Status.PRESENT);
 
-        Long present = attendanceRecordRepository.countByStatus
-                (Status.PRESENT);
-        Long absent = attendanceRecordRepository.countByStatus(
-                Status.ABSENT);
+        Long absent = attendanceRecordRepository.countByEnrollmentStudentIdAndEnrollmentCourseIdAndStatus(
+                studentId, courseId, Status.ABSENT);
 
-        return new AttendanceRecordDto(present, absent);
+        AttendanceRecord lastRecord = attendanceRecordRepository
+                .findTopByEnrollmentStudentIdAndEnrollmentCourseIdOrderByDateDesc(studentId, courseId);
 
+
+        AttendanceRecordDto dto = new AttendanceRecordDto();
+        dto.setStudentId(studentId);
+        dto.setCourseId(courseId);
+        dto.setAbsent(absent);
+        dto.setPresent(present);
+
+        if (lastRecord != null) {
+            dto.setDate(lastRecord.getDate());
+            dto.setStatus(lastRecord.getStatus());
+        }
+
+        return dto;
     }
+
 
     @Override
     public AttendanceRecord markAttendance(Long studentId, Long courseId, LocalDate date, Status status) {
@@ -78,16 +93,23 @@ public class AttendanceRecordService implements AttendanceRecordServiceInterface
 
     @Override
     public List<AttendanceRecord> saveAllAttendanceRecords(List<AttendanceRecordDto> attendanceRecordDtoList) {
-        if(attendanceRecordDtoList == null || attendanceRecordDtoList.isEmpty()){
-            throw new RuntimeException("attendance record can not be empty");
+        if (attendanceRecordDtoList == null || attendanceRecordDtoList.isEmpty()) {
+            throw new RuntimeException("Attendance record cannot be empty");
         }
         List<AttendanceRecord> records = new ArrayList<>();
 
-        for (AttendanceRecordDto dto : attendanceRecordDtoList){
-            AttendanceRecord record = markAttendance(dto.getStudentId(), dto.getCourseId(),
-                    dto.getDate(), dto.getStatus());
+        for (AttendanceRecordDto dto : attendanceRecordDtoList) {
+            AttendanceRecord record = new AttendanceRecord();
+            Enrollment enrollment = enrollmentRepository.findByStudentIdAndCourseId(dto.getStudentId(), dto.getCourseId());
+
+            record.setEnrollment(enrollment);
+            record.setDate(dto.getDate());
+            record.setStatus(dto.getStatus());
+
             records.add(record);
         }
         return attendanceRecordRepository.saveAll(records);
     }
+
+
 }

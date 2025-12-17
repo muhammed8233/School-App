@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface AttendanceRecordServiceInterface {
-    AttendanceRecordDto getStudentAttendance();
+    AttendanceRecordDto getStudentAttendance(Long studentId, Long courseId);
     AttendanceRecord markAttendance(Long studentId, Long courseId, LocalDate date, Status status);
     List<AttendanceRecord> saveAllAttendanceRecords(List<AttendanceRecordDto> attendanceRecordDtoList);
 }

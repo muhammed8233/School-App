@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface EnrollmentServiceInterface {
 
+    List<EnrollmentDto> getAllEnrollment();
+
     Enrollment enrollStudentInCourse(Long studentId, Long courseId);
 
     List<EnrollmentDto> getStudentsByACourse(Long courseId);

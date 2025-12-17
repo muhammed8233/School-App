@@ -49,7 +49,19 @@ public class EnrollmentService implements EnrollmentServiceInterface{
 
     @Override
     public List<EnrollmentDto> getCourseByStudent(Long studentId) {
-        return List.of();
+        List<Enrollment> enrollments = enrollmentRepository.findByStudentId(studentId);
+        List<EnrollmentDto> enrollmentDtos = new ArrayList<>();
+
+        for (Enrollment enrollment : enrollments) {
+            EnrollmentDto dto = new EnrollmentDto();
+            dto.setEnrollmentId(enrollment.getId());
+            dto.setStudentId(enrollment.getStudent().getId());
+            dto.setCourseId(enrollment.getCourse().getId());
+
+            enrollmentDtos.add(dto);
+        }
+        return enrollmentDtos;
+
     }
 
     @Override
@@ -60,7 +72,7 @@ public class EnrollmentService implements EnrollmentServiceInterface{
     public List<Enrollment> getAllEnrollments() {
         return enrollmentRepository.findAll();
     }
-
+    @Override
     public List<EnrollmentDto> getAllEnrollment(){
         List<Enrollment> enrollments = enrollmentRepository.findAll();
         List<EnrollmentDto> enrollmentDto = new ArrayList<>();
@@ -94,15 +106,18 @@ public class EnrollmentService implements EnrollmentServiceInterface{
 
     @Override
     public List<EnrollmentDto> getStudentsByACourse(Long courseId) {
-        List<Enrollment> enrollments = enrollmentRepository.findAll();
-        List<EnrollmentDto> enrollmentDtoList = new ArrayList<>();
+        List<Enrollment> enrollments = enrollmentRepository.findByCourseId(courseId);
+        List<EnrollmentDto> enrollmentDtos = new ArrayList<>();
+
         for (Enrollment enrollment : enrollments) {
-            enrollmentDtoList.add(new EnrollmentDto(
-                    enrollment.getId(),
-                    enrollment.getStudent().getId(),
-                    enrollment.getCourse().getId()
-            ));
+            EnrollmentDto dto = new EnrollmentDto();
+            dto.setEnrollmentId(enrollment.getId());
+            dto.setStudentId(enrollment.getStudent().getId());
+            dto.setCourseId(enrollment.getCourse().getId());
+
+            enrollmentDtos.add(dto);
         }
-        return enrollmentDtoList;
+        return enrollmentDtos;
     }
+
 }

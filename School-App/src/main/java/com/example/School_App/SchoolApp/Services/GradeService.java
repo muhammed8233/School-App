@@ -56,20 +56,23 @@ public class GradeService implements GradeServiceInterface {
 
     @Override
     public List<ScoreDto> getAllStudentScoreInACourse() {
-        List<EnrollmentDto> enrollments = enrollmentService.getAllEnrollment();
+        List<Enrollment> enrollments = enrollmentService.getAllEnrollments();
         List<ScoreDto> results = new ArrayList<>();
 
+        for (Enrollment enrollment : enrollments) {
+            double finalScore = computeFinalScore(enrollment.getId());
+            String studentName = studentService.findNameById(enrollment.getStudent().getId());
+            String courseCode = courseService.findCodeById(enrollment.getCourse().getId());
 
-        for (EnrollmentDto enrollment : enrollments) {
-            double finalScore = computeFinalScore(enrollment.getEnrollmentId());
+            ScoreDto dto = new ScoreDto();
+            dto.setStudentId(enrollment.getStudent().getId());
+            dto.setCourseId(enrollment.getCourse().getId());
 
-            String studentName = studentService.findNameById(enrollment.getStudentId());
-            String courseCode = courseService.findCodeById(enrollment.getCourseId());
 
-            results.add(new ScoreDto(enrollment.getStudentId(), studentName,
-                    enrollment.getCourseId(), courseCode, finalScore));
+            dto.setExamScore(finalScore);
+
+            results.add(dto);
         }
-
         return results;
     }
 
@@ -112,6 +115,6 @@ public class GradeService implements GradeServiceInterface {
 
             savedGrades.add(savedGrade);
         }
-        return savedGrades;
+        return gradeRepository.saveAll(savedGrades);
     }
 }

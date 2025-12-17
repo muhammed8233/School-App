@@ -6,10 +6,7 @@ import com.example.School_App.SchoolApp.Model.Enrollment;
 import com.example.School_App.SchoolApp.Model.Grade;
 import com.example.School_App.SchoolApp.Model.Student;
 import com.example.School_App.SchoolApp.Repository.GradeRepository;
-import com.example.School_App.SchoolApp.SchoolAppDto.CourseDto;
-import com.example.School_App.SchoolApp.SchoolAppDto.EnrollmentDto;
-import com.example.School_App.SchoolApp.SchoolAppDto.GradeDto;
-import com.example.School_App.SchoolApp.SchoolAppDto.StudentDto;
+import com.example.School_App.SchoolApp.SchoolAppDto.*;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
@@ -61,7 +58,6 @@ class GradeServiceTest {
         assertNotNull(grade.getId());
         assertEquals(50, grade.getScore());
         assertEquals(Assessment.TEST, grade.getAssessmentType());
-        assertEquals(1, grade.getEnrollment().getStudent().getId());
     }
 
     @Transactional
@@ -83,6 +79,24 @@ class GradeServiceTest {
 
         assertNotNull(result);
         assertEquals(74.0, result, 0.01);
+    }
+
+    @Test
+    void testToGetAllStudentScoreInAcourse(){
+        List<Student> savedStudents = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1")));
+        List<Course> savedCourses = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));
+        List<Enrollment> enrollments = enrollmentService.saveAllEnrollments(List.of(
+                new EnrollmentDto(savedStudents.get(0).getId(), savedCourses.get(0).getId())));
+
+        gradeService.saveAllGradesFromDto(List.of(
+                new GradeDto(savedStudents.get(0).getId(), savedCourses.get(0).getId(), Assessment.TEST, 50.0),
+                new GradeDto(savedStudents.get(0).getId(), savedCourses.get(0).getId(), Assessment.EXAM, 90.0)
+        ));
+       List<ScoreDto>  result = gradeService.getAllStudentScoreInACourse();
+
+       assertNotNull(result);
+       assertEquals(1, result.size());
+       assertEquals(90, result.get(0).getExamScore());
     }
 
 

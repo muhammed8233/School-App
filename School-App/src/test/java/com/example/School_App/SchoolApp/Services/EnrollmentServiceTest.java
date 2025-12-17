@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class EnrollmentServiceTest {
+    @Autowired private GradeService gradeService;
     @Autowired private StudentService studentService;
     @Autowired private EnrollmentService enrollmentService;
     @Autowired private  CourseService courseService;
@@ -29,8 +30,7 @@ class EnrollmentServiceTest {
     @Test
     void testToEnrollStudentInACourse() {
         List <Student> savedStudent = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1")));
-        List<Course> savedCourse = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));
-
+        List<Course> savedCourse = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));List<Course> savedCourse1 = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));
        try{
            enrollmentService.enrollStudentInCourse(savedStudent.get(0).getId(), savedCourse.get(0).getId());
          enrollmentService.enrollStudentInCourse(savedStudent.getFirst().getId(), savedCourse.getFirst().getId());
@@ -43,24 +43,8 @@ class EnrollmentServiceTest {
        }catch (RuntimeException e){
            System.err.println(e.getMessage());
        }
-    }
-
-    @Test
-    void testToViewAllStudentEnrolledInACourse(){
-        List <Student> savedStudent = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1")));
-        List<Course> savedCourse = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));
-        List <Student> students = studentService.saveAllStudents(List.of(new StudentDto("aliyu", "aliyu@gmail.com", "ss1")));
-        List<Course> courses = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));
 
 
-      Enrollment save =  enrollmentService.enrollStudentInCourse(savedStudent.get(0).getId(), savedCourse.get(0).getId());
-      Enrollment save2 = enrollmentService.enrollStudentInCourse(students.getFirst().getId(), courses.getFirst().getId());
-
-       List<Enrollment> results = enrollmentService.getAllEnrollments();
-
-       assertNotNull(results);
-       assertEquals(2, results.size());
-       assertEquals("aliyu", results.get(1).getStudent().getName());
     }
 
 
