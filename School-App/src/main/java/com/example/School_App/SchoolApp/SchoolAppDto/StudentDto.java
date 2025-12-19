@@ -51,13 +51,10 @@ public class StudentDto {
     @Override
     public String toString() {
         return "StudentDto{" +
-                "className='" + className + '\'' +
-                ", studentId=" + studentId +
+                "studentId=" + studentId +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
+                ", className='" + className + '\'' +
                 '}';
     }
-
-
-
 }

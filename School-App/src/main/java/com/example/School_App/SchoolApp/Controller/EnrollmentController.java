@@ -1,7 +1,6 @@
 package com.example.School_App.SchoolApp.Controller;
 
 import com.example.School_App.SchoolApp.SchoolAppDto.ScoreDto;
-import com.example.School_App.SchoolApp.Model.Enrollment;
 import com.example.School_App.SchoolApp.SchoolAppDto.EnrollmentDto;
 import com.example.School_App.SchoolApp.Services.EnrollmentServiceInterface;
 import com.example.School_App.SchoolApp.Services.GradeService;
@@ -40,10 +39,9 @@ public class EnrollmentController {
         return enrollmentServiceInterface.getCourseByStudent(studentId);
     }
 
-    @PostMapping("save")
-    public List<EnrollmentDto> saveAllEnrollments(@RequestBody List<EnrollmentDto> enrollmentDto){
-
-        return enrollmentServiceInterface.saveAllEnrollments(enrollmentDto);
+    @GetMapping("/getAllEnrollment")
+    public List<EnrollmentDto> getAllEnrollment(){
+        return enrollmentServiceInterface.getAllEnrollment();
     }
 
     @GetMapping("/all-scores")

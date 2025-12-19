@@ -47,12 +47,19 @@ class EnrollmentServiceTest {
 
         List <StudentDto> students = studentService.saveAllStudents(List.of(new StudentDto("yahaya", "yahaya@gmail.com", "ss1")));
         List<CourseDto> courses = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));
-        EnrollmentDto enrollmentDto = enrollmentService.enrollStudentInCourse(savedStudent.getFirst().getStudentId(), savedCourse.getFirst().getCourseId());
-        EnrollmentDto enrollmentDto1 = enrollmentService.enrollStudentInCourse(students.getLast().getStudentId(), courses.getLast().getCourseId());
+
+        EnrollmentDto enrollmentDto = new EnrollmentDto();
+        enrollmentDto.setCourseId(savedCourse.getFirst().getCourseId());
+        enrollmentDto.setStudentId(savedStudent.getFirst().getStudentId());
+
+        EnrollmentDto enrollmentDto1 = new EnrollmentDto();
+        enrollmentDto1.setCourseId(courses.getLast().getCourseId());
+        enrollmentDto1.setStudentId(students.getLast().getStudentId());
+
         List<EnrollmentDto> enrollmentDtoList = enrollmentService.saveAllEnrollments(List.of(enrollmentDto, enrollmentDto1));
         List<EnrollmentDto> result = enrollmentService.getCourseByStudent(enrollmentDtoList.get(0).getStudentId());
         assertNotNull(result);
-        assertEquals(2, result.size());
+        assertEquals(2, enrollmentDtoList.size());
         assertEquals(1, result.getFirst().getCourseId());
     }
 
@@ -78,5 +85,28 @@ class EnrollmentServiceTest {
         assertEquals(2, enrollmentDtoList.size());
         assertEquals(1, result.getFirst().getStudentId());
 
+    }
+
+    @Test
+    void testToGetAllEnrollment(){
+        List <StudentDto> savedStudent = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1")));
+        List<CourseDto> savedCourse = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));
+
+        List <StudentDto> students = studentService.saveAllStudents(List.of(new StudentDto("yahaya", "yahaya@gmail.com", "ss1")));
+        List<CourseDto> courses = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));
+
+        EnrollmentDto enrollmentDto = new EnrollmentDto();
+        enrollmentDto.setCourseId(savedCourse.getFirst().getCourseId());
+        enrollmentDto.setStudentId(savedStudent.getFirst().getStudentId());
+
+        EnrollmentDto enrollmentDto1 = new EnrollmentDto();
+        enrollmentDto1.setStudentId(students.getLast().getStudentId());
+        enrollmentDto1.setCourseId(courses.getLast().getCourseId());
+
+        enrollmentService.saveAllEnrollments(List.of(enrollmentDto, enrollmentDto1));
+        List<EnrollmentDto> result = enrollmentService.getAllEnrollment();
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
     }
 }
