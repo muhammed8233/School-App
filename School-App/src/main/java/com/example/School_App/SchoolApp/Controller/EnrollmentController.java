@@ -25,8 +25,8 @@ public class EnrollmentController {
 
 
     @PostMapping
-    public Enrollment enrollStudentInACourse(@RequestBody EnrollmentDto enrollmentDto){
-        return enrollmentServiceInterface.enrollStudentInCourse(enrollmentDto.getStudentId(),
+    public void enrollStudentInACourse(@RequestBody EnrollmentDto enrollmentDto){
+         enrollmentServiceInterface.enrollStudentInCourse(enrollmentDto.getStudentId(),
                 enrollmentDto.getCourseId());
     }
 
@@ -41,7 +41,7 @@ public class EnrollmentController {
     }
 
     @PostMapping("save")
-    public List<Enrollment> saveAllEnrollments(@RequestBody List<EnrollmentDto> enrollmentDto){
+    public List<EnrollmentDto> saveAllEnrollments(@RequestBody List<EnrollmentDto> enrollmentDto){
 
         return enrollmentServiceInterface.saveAllEnrollments(enrollmentDto);
     }

@@ -42,12 +42,13 @@ class CourseServiceTest {
     @Test
     void testToVerifyCourse(){
         CourseDto courseDto = new CourseDto("physic","phy101");
-         Course courses = courseService.addNewCourse(courseDto);
+         courseService.addNewCourse(courseDto);
+         List<CourseDto> courses = courseService.getAllCoursesAsDto();
 
 
         assertNotNull(courses);
-        assertEquals("physic", courses.getCourseName());
-        assertEquals("phy101", courses.getCourseCode());
+        assertEquals("physic", courses.getFirst().getCourseName());
+        assertEquals("phy101", courses.getFirst().getCourseCode());
 
     }
 

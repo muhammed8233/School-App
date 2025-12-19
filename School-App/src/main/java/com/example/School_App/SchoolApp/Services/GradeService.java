@@ -53,29 +53,31 @@ public class GradeService implements GradeServiceInterface {
         grade.setScore(score);
         return gradeRepository.save(grade);
     }
-
     @Override
     public List<ScoreDto> getAllStudentScoreInACourse() {
-        List<Enrollment> enrollments = enrollmentService.getAllEnrollments();
+        List<EnrollmentDto> enrollments = enrollmentService.getAllEnrollment();
         List<ScoreDto> results = new ArrayList<>();
 
-        for (Enrollment enrollment : enrollments) {
-            double finalScore = computeFinalScore(enrollment.getId());
-            String studentName = studentService.findNameById(enrollment.getStudent().getId());
-            String courseCode = courseService.findCodeById(enrollment.getCourse().getId());
-
+        for (EnrollmentDto enrollment : enrollments) {
             ScoreDto dto = new ScoreDto();
-            dto.setStudentId(enrollment.getStudent().getId());
-            dto.setCourseId(enrollment.getCourse().getId());
+            dto.setStudentId(enrollment.getStudentId());
+            dto.setCourseId(enrollment.getCourseId());
 
+            Double testVal = gradeRepository.findScore(enrollment.getEnrollmentId(), Assessment.TEST);
+            Double assignmentVal = gradeRepository.findScore(enrollment.getEnrollmentId(), Assessment.ASSIGNMENT);
+            Double examVal = gradeRepository.findScore(enrollment.getEnrollmentId(), Assessment.EXAM);
 
-            dto.setExamScore(finalScore);
+            dto.setTestScore(testVal);
+            dto.setAssignmentScore(assignmentVal);
+            dto.setExamScore(examVal);
+
+            double finalScore = computeFinalScore(enrollment.getEnrollmentId());
+            dto.setFinalScore(finalScore);
 
             results.add(dto);
         }
         return results;
     }
-
 
     @Override
     public double computeFinalScore(Long enrolmentId){
@@ -102,11 +104,10 @@ public class GradeService implements GradeServiceInterface {
 
     @Transactional
     @Override
-    public List<Grade> saveAllGradesFromDto(List<GradeDto> gradeRequests) {
+    public List<GradeDto> saveAllGradesFromDto(List<GradeDto> gradeRequests) {
         if (gradeRequests == null || gradeRequests.isEmpty()) {
             throw new IllegalArgumentException("Grade list cannot be empty.");
         }
-
         List<Grade> savedGrades = new ArrayList<>();
 
         for (GradeDto request : gradeRequests) {
@@ -115,6 +116,17 @@ public class GradeService implements GradeServiceInterface {
 
             savedGrades.add(savedGrade);
         }
-        return gradeRepository.saveAll(savedGrades);
+        List<Grade> grades = gradeRepository.saveAll(savedGrades);
+        List<GradeDto> dtos = new ArrayList<>();
+
+        for (Grade grade : grades){
+            GradeDto gradeDto = new GradeDto();
+            gradeDto.setStudentId(grade.getEnrollment().getStudent().getId());
+            gradeDto.setCourseId(grade.getEnrollment().getCourse().getId());
+            gradeDto.setScore(grade.getScore());
+            gradeDto.setAssessmentType(grade.getAssessmentType());
+            dtos.add(gradeDto);
+        }
+        return dtos;
     }
 }

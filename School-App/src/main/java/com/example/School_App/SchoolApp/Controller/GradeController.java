@@ -39,7 +39,7 @@ public class GradeController {
 
 
     @PostMapping("save")
-    public List<Grade> saveAllGrade(@RequestBody List<GradeDto> gradeDtoList){
+    public List<GradeDto> saveAllGrade(@RequestBody List<GradeDto> gradeDtoList){
         return gradeServiceInterface.saveAllGradesFromDto(gradeDtoList);
     }
 }

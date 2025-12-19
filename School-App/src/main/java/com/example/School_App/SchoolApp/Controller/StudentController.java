@@ -29,7 +29,7 @@ public class StudentController {
     }
 
     @PostMapping("save")
-    public List<Student> uploadStudent(@RequestBody List<StudentDto> studentDtoS){
+    public List<StudentDto> uploadStudent(@RequestBody List<StudentDto> studentDtoS){
         return studentServiceInterface.saveAllStudents(studentDtoS);
     }
 }

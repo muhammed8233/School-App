@@ -13,7 +13,7 @@ public interface StudentServiceInterface { ;
     List<StudentDto> getStudents();
 
     @Transactional
-    List<Student> saveAllStudents(List<StudentDto> studentDto);
+    List<StudentDto> saveAllStudents(List<StudentDto> studentDto);
 
     Student getStudentById(Long studentId);
 }

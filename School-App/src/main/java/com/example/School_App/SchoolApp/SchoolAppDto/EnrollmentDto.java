@@ -16,11 +16,6 @@ public class EnrollmentDto {
         this.courseId = courseId;
     }
 
-    public  EnrollmentDto(Long enrollmentId, Long studentId, Long courseId) {}
-
-    public EnrollmentDto(Long id, Student student, Course course) {
-    }
-
 
     public Long getCourseId() {
         return courseId;

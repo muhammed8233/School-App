@@ -25,12 +25,12 @@ public class CourseController {
     }
 
     @PostMapping
-    public Course addNewCourse(@RequestBody CourseDto courseDto){
-        return courseServiceInterface.addNewCourse(courseDto);
+    public void addNewCourse(@RequestBody CourseDto courseDto){
+         courseServiceInterface.addNewCourse(courseDto);
     }
 
     @PostMapping("save")
-    public List<Course> uploadCourses(@RequestBody List<CourseDto> courseDtoList) {
+    public List<CourseDto> uploadCourses(@RequestBody List<CourseDto> courseDtoList) {
         return courseServiceInterface.saveAllCoursesFromDto(courseDtoList);
     }
 

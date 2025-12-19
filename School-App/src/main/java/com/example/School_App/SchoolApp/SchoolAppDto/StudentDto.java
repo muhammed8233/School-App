@@ -1,6 +1,7 @@
 package com.example.School_App.SchoolApp.SchoolAppDto;
 
 public class StudentDto {
+    private Long studentId;
     private String name;
     private String email;
     private String className;
@@ -13,6 +14,14 @@ public class StudentDto {
 
     public StudentDto() {
 
+    }
+
+    public Long getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
     }
 
     public String getEmail() {
@@ -43,8 +52,12 @@ public class StudentDto {
     public String toString() {
         return "StudentDto{" +
                 "className='" + className + '\'' +
+                ", studentId=" + studentId +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }
+
+
+
 }

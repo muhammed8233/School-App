@@ -40,71 +40,71 @@ class GradeServiceTest {
         gradeRepository.deleteAll();
     }
 
+
     @Test
     void testToRecordStudentGradeInACourse() {
-        List<Student> savedStudent = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1")));
-        List<Course> savedCourse = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));
+        List<StudentDto> savedStudent = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1")));
+        List<CourseDto> savedCourse = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));
 
         List<EnrollmentDto> enrollmentRequests = List.of(
-                new EnrollmentDto(savedStudent.get(0).getId(), savedCourse.get(0).getId()));
+                new EnrollmentDto(savedStudent.get(0).getStudentId(), savedCourse.get(0).getCourseId()));
 
-        enrollmentService.saveAllEnrollments(enrollmentRequests);
+        List<EnrollmentDto> enrollmentDtoList = enrollmentService.saveAllEnrollments(enrollmentRequests);
 
+        gradeService.recordStudentScore(enrollmentDtoList.get(0).getStudentId(),
+                enrollmentDtoList.get(0).getCourseId(), Assessment.TEST,
+                50.0);
 
-        Grade grade = gradeService.recordStudentScore(savedStudent.get(0).getId(),
-                savedCourse.get(0).getId(), Assessment.TEST, 50);
+        List<ScoreDto> grades = gradeService.getAllStudentScoreInACourse();
 
-        assertNotNull(grade);
-        assertNotNull(grade.getId());
-        assertEquals(50, grade.getScore());
-        assertEquals(Assessment.TEST, grade.getAssessmentType());
+        assertNotNull(grades);
+        assertEquals(1, grades.size());
+        ScoreDto firstResult = grades.get(0);
+        assertEquals(savedCourse.get(0).getCourseId(), firstResult.getCourseId());
+        assertEquals(50.0, firstResult.getTestScore());
+
+    }
+
+    @Transactional
+    @Test
+    void testToGetAllStudentScoreInACourse(){
+        List<StudentDto> savedStudents = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1")));
+        List<CourseDto> savedCourses = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));
+        List<EnrollmentDto> enrollments = enrollmentService.saveAllEnrollments(List.of(
+                new EnrollmentDto(savedStudents.get(0).getStudentId(), savedCourses.get(0).getCourseId())));
+
+        gradeService.saveAllGradesFromDto(List.of(
+                new GradeDto(enrollments.get(0).getStudentId(), enrollments.get(0).getCourseId(), Assessment.TEST, 50.0),
+                new GradeDto(enrollments.get(0).getStudentId(), enrollments.get(0).getCourseId(), Assessment.EXAM, 90.0),
+                new GradeDto(enrollments.get(0).getStudentId(), enrollments.get(0).getCourseId(), Assessment.ASSIGNMENT, 20.0)
+        ));
+       List<ScoreDto>  result = gradeService.getAllStudentScoreInACourse();
+
+       assertNotNull(result);
+       assertEquals(1, result.size());
+       assertEquals(74.0, result.get(0).getFinalScore());
     }
 
     @Transactional
     @Test
     void testToComputeFinalScoreForStudent() {
 
-        List<Student> savedStudents = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1")));
-        List<Course> savedCourses = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));
-        List<Enrollment> enrollments = enrollmentService.saveAllEnrollments(List.of(
-                    new EnrollmentDto(savedStudents.get(0).getId(), savedCourses.get(0).getId())));
+        List<StudentDto> savedStudents = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1")));
+        List<CourseDto> savedCourses = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));
+        List<EnrollmentDto> enrollments = enrollmentService.saveAllEnrollments(List.of(
+                new EnrollmentDto(savedStudents.get(0).getStudentId(), savedCourses.get(0).getCourseId())));
 
         gradeService.saveAllGradesFromDto(List.of(
-                new GradeDto(savedStudents.get(0).getId(), savedCourses.get(0).getId(), Assessment.TEST, 50.0),
-                new GradeDto(savedStudents.get(0).getId(), savedCourses.get(0).getId(), Assessment.EXAM, 90.0)
+                new GradeDto(savedStudents.get(0).getStudentId(), savedCourses.get(0).getCourseId(), Assessment.TEST, 50.0),
+                new GradeDto(savedStudents.get(0).getStudentId(), savedCourses.get(0).getCourseId(), Assessment.EXAM, 90.0)
         ));
 
 
-        double result = gradeService.computeFinalScore(enrollments.get(0).getId());
+        double result = gradeService.computeFinalScore(enrollments.get(0).getEnrollmentId());
 
         assertNotNull(result);
         assertEquals(74.0, result, 0.01);
     }
 
-    @Test
-    void testToGetAllStudentScoreInAcourse(){
-        List<Student> savedStudents = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1")));
-        List<Course> savedCourses = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));
-        List<Enrollment> enrollments = enrollmentService.saveAllEnrollments(List.of(
-                new EnrollmentDto(savedStudents.get(0).getId(), savedCourses.get(0).getId())));
-
-        gradeService.saveAllGradesFromDto(List.of(
-                new GradeDto(savedStudents.get(0).getId(), savedCourses.get(0).getId(), Assessment.TEST, 50.0),
-                new GradeDto(savedStudents.get(0).getId(), savedCourses.get(0).getId(), Assessment.EXAM, 90.0)
-        ));
-       List<ScoreDto>  result = gradeService.getAllStudentScoreInACourse();
-
-       assertNotNull(result);
-       assertEquals(1, result.size());
-       assertEquals(90, result.get(0).getExamScore());
-    }
-
 
 }
-
-
-
-
-
-
-

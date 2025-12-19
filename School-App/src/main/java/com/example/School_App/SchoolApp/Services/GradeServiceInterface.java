@@ -16,5 +16,5 @@ public interface GradeServiceInterface  {
     double computeFinalScore(Long enrollmentId);
 
     @Transactional
-    List<Grade> saveAllGradesFromDto(List<GradeDto> gradeRequests);
+    List<GradeDto> saveAllGradesFromDto(List<GradeDto> gradeRequests);
 }

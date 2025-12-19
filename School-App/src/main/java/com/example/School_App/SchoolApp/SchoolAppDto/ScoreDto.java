@@ -6,17 +6,15 @@ public class ScoreDto {
     private Double examScore;
     private Double testScore;
     private Double assignmentScore;
+    private Double finalScore;
 
-    public ScoreDto( Double examScore, Double testScore, Double assignmentScore) {
-    }
+
 
     public ScoreDto() {
         
     }
 
-    public ScoreDto(Long studentId, String studentName, Long courseId, String courseCode, double finalScore) {
 
-    }
 
     public Long getStudentId() {
         return studentId;
@@ -56,5 +54,13 @@ public class ScoreDto {
 
     public void setTestScore(Double testScore) {
         this.testScore = testScore;
+    }
+
+    public Double getFinalScore() {
+        return finalScore;
+    }
+
+    public void setFinalScore(Double finalScore) {
+        this.finalScore = finalScore;
     }
 }

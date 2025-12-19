@@ -10,6 +10,6 @@ import java.util.Map;
 
 public interface AttendanceRecordServiceInterface {
     AttendanceRecordDto getStudentAttendance(Long studentId, Long courseId);
-    AttendanceRecord markAttendance(Long studentId, Long courseId, LocalDate date, Status status);
-    List<AttendanceRecord> saveAllAttendanceRecords(List<AttendanceRecordDto> attendanceRecordDtoList);
+    AttendanceRecordDto markAttendance(Long studentId, Long courseId, LocalDate date, Status status);
+    List<AttendanceRecordDto> saveAllAttendanceRecords(List<AttendanceRecordDto> attendanceRecordDtoList);
 }

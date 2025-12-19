@@ -24,6 +24,7 @@ public class StudentService implements StudentServiceInterface {
 
     @Override
     public Student addNewStudent(StudentDto studentDTO) {
+
         Student student = new Student();
         student.setName(studentDTO.getName());
         student.setEmail(studentDTO.getEmail());
@@ -47,7 +48,7 @@ public class StudentService implements StudentServiceInterface {
 
     @Transactional
     @Override
-    public List<Student> saveAllStudents(List<StudentDto> studentDto){
+    public List<StudentDto> saveAllStudents(List<StudentDto> studentDto){
         if(studentDto == null || studentDto.isEmpty() ){
             throw new IllegalStateException("student dto can not be empty");
         }
@@ -57,7 +58,19 @@ public class StudentService implements StudentServiceInterface {
             Student student = new Student(dto.getName(), dto.getEmail(), dto.getClassName());
             students.add(student);
         }
-        return studentRepository.saveAll(students);
+
+        List<Student> savedStudents = studentRepository.saveAll(students);
+
+        List<StudentDto> dtos = new ArrayList<>();
+        for(Student student : savedStudents){
+            StudentDto studentDto1 = new StudentDto();
+            studentDto1.setStudentId(student.getId());
+            studentDto1.setName(student.getName());
+            studentDto1.setEmail(student.getEmail());
+            studentDto1.setClassName(student.getClassName());
+            dtos.add(studentDto1);
+        }
+        return dtos;
     }
 
     @Override
@@ -66,7 +79,6 @@ public class StudentService implements StudentServiceInterface {
                 .orElseThrow(() -> new RuntimeException("Student with Id " + id + " not found"));
     }
 
-    // Assumed method for the DTO mapping
     public String findNameById(Long id) {
         return getStudentById(id).getName();
     }

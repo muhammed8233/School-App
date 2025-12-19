@@ -33,7 +33,7 @@ public class CourseService implements CourseServiceInterface {
     }
 
     @Override
-    public Course addNewCourse(CourseDto courseDto){
+    public void addNewCourse(CourseDto courseDto){
         boolean exists = courseRepository.existsByCourseCode(courseDto.getCourseCode());
         if(exists){
             throw new IllegalStateException("Course already exist");
@@ -41,23 +41,36 @@ public class CourseService implements CourseServiceInterface {
         Course course = new Course();
         course.setCourseName(courseDto.getCourseName());
         course.setCourseCode(courseDto.getCourseCode());
-         return courseRepository.save(course);
+        courseRepository.save(course);
     }
 
     @Transactional
     @Override
-    public List<Course> saveAllCoursesFromDto(List<CourseDto> courseDto) {
-        if (courseDto == null || courseDto.isEmpty()) {
+    public List<CourseDto> saveAllCoursesFromDto(List<CourseDto> courseDtoList) {
+        if (courseDtoList == null || courseDtoList.isEmpty()) {
             throw new IllegalArgumentException("Course list cannot be empty.");
         }
+
         List<Course> courses = new ArrayList<>();
-        for (CourseDto dto : courseDto) {
+        for (CourseDto dto : courseDtoList) {
             Course course = new Course(dto.getCourseName(), dto.getCourseCode());
             courses.add(course);
         }
 
-        return courseRepository.saveAll(courses);
+        List<Course> savedCourses = courseRepository.saveAll(courses);
+
+        List<CourseDto> dtos = new ArrayList<>();
+        for (Course savedCourse : savedCourses) {
+            CourseDto dto = new CourseDto();
+            dto.setCourseId(savedCourse.getId());
+            dto.setCourseName(savedCourse.getCourseName());
+            dto.setCourseCode(savedCourse.getCourseCode());
+            dtos.add(dto);
+        }
+
+        return dtos;
     }
+
 
     @Override
     public Course getCourseById(Long id) {
@@ -69,6 +82,7 @@ public class CourseService implements CourseServiceInterface {
         return getCourseById(id).getCourseCode();
     }
 
+    @Override
     public List<CourseDto> getAllCoursesAsDto() {
         List<Course> courses = courseRepository.findAll();
         List<CourseDto> courseDto = new ArrayList<>();

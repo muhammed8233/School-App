@@ -9,11 +9,13 @@ import java.util.List;
 public interface CourseServiceInterface {
     List<CourseDto> getStudentCourse();
 
-    Course addNewCourse(CourseDto courseDto);
+    void addNewCourse(CourseDto courseDto);
 
     @Transactional
-    List<Course> saveAllCoursesFromDto(List<CourseDto> courseDto);
+    List<CourseDto> saveAllCoursesFromDto(List<CourseDto> courseDto);
 
     Course getCourseById(Long courseId);
+
+    List<CourseDto> getAllCoursesAsDto();
 }
 

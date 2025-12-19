@@ -1,6 +1,7 @@
 package com.example.School_App.SchoolApp.SchoolAppDto;
 
 public class CourseDto {
+    private Long courseId;
     private String courseName;
     private String courseCode;
 
@@ -27,5 +28,13 @@ public class CourseDto {
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
+    }
+
+    public void setCourseId(Long courseId) {
+        this.courseId = courseId;
+    }
+
+    public Long getCourseId() {
+        return courseId;
     }
 }

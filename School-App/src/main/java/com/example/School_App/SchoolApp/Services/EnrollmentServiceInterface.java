@@ -12,12 +12,12 @@ public interface EnrollmentServiceInterface {
 
     List<EnrollmentDto> getAllEnrollment();
 
-    Enrollment enrollStudentInCourse(Long studentId, Long courseId);
+    EnrollmentDto enrollStudentInCourse(Long studentId, Long courseId);
 
     List<EnrollmentDto> getStudentsByACourse(Long courseId);
 
     @Transactional
-    List<Enrollment> saveAllEnrollments(List<EnrollmentDto> enrollmentDto);
+    List<EnrollmentDto> saveAllEnrollments(List<EnrollmentDto> enrollmentDto);
 
 
     List<EnrollmentDto> getCourseByStudent(Long studentId);

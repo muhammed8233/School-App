@@ -69,7 +69,7 @@ public class AttendanceRecordService implements AttendanceRecordServiceInterface
 
 
     @Override
-    public AttendanceRecord markAttendance(Long studentId, Long courseId, LocalDate date, Status status) {
+    public AttendanceRecordDto markAttendance(Long studentId, Long courseId, LocalDate date, Status status) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
 
@@ -87,28 +87,50 @@ public class AttendanceRecordService implements AttendanceRecordServiceInterface
         attendance.setDate(date);
         attendance.setStatus(status);
 
-       return attendanceRecordRepository.save(attendance);
+       AttendanceRecord records = attendanceRecordRepository.save(attendance);
 
+       AttendanceRecordDto recordDto = new AttendanceRecordDto();
+       recordDto.setStudentId(records.getEnrollment().getStudent().getId());
+       recordDto.setCourseId(records.getEnrollment().getCourse().getId());
+       recordDto.setDate(records.getDate());
+       recordDto.setStatus(records.getStatus());
+
+       return recordDto;
     }
 
     @Override
-    public List<AttendanceRecord> saveAllAttendanceRecords(List<AttendanceRecordDto> attendanceRecordDtoList) {
+    public List<AttendanceRecordDto> saveAllAttendanceRecords(List<AttendanceRecordDto> attendanceRecordDtoList) {
         if (attendanceRecordDtoList == null || attendanceRecordDtoList.isEmpty()) {
             throw new RuntimeException("Attendance record cannot be empty");
         }
         List<AttendanceRecord> records = new ArrayList<>();
 
         for (AttendanceRecordDto dto : attendanceRecordDtoList) {
-            AttendanceRecord record = new AttendanceRecord();
-            Enrollment enrollment = enrollmentRepository.findByStudentIdAndCourseId(dto.getStudentId(), dto.getCourseId());
 
+            Enrollment enrollment = enrollmentRepository.findByStudentIdAndCourseId(dto.getStudentId(), dto.getCourseId());
+            if (enrollment == null) {
+                throw new RuntimeException("No enrollment found for Student ID " +
+                        dto.getStudentId() + " and Course ID " + dto.getCourseId());
+            }
+            AttendanceRecord record = new AttendanceRecord();
             record.setEnrollment(enrollment);
             record.setDate(dto.getDate());
             record.setStatus(dto.getStatus());
 
             records.add(record);
         }
-        return attendanceRecordRepository.saveAll(records);
+        List<AttendanceRecord> dto = attendanceRecordRepository.saveAll(records);
+        List<AttendanceRecordDto> dtos = new ArrayList<>();
+
+        for (AttendanceRecord record : dto){
+            AttendanceRecordDto recordDto = new AttendanceRecordDto();
+            recordDto.setStudentId(record.getEnrollment().getStudent().getId());
+            recordDto.setCourseId(record.getEnrollment().getCourse().getId());
+            recordDto.setDate(record.getDate());
+            recordDto.setStatus(record.getStatus());
+            dtos.add(recordDto);
+        }
+        return dtos;
     }
 
 

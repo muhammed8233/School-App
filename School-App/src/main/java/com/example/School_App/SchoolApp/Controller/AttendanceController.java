@@ -34,7 +34,7 @@ public class AttendanceController {
 
     }
     @PostMapping("save")
-    public List<AttendanceRecord> saveAllAttendanceRecord(@RequestBody List<AttendanceRecordDto>
+    public List<AttendanceRecordDto> saveAllAttendanceRecord(@RequestBody List<AttendanceRecordDto>
                                                                       attendanceRecordDtoList){
         return attendanceRecordServiceInterface.saveAllAttendanceRecords(attendanceRecordDtoList);
     }
