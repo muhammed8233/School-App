@@ -4,7 +4,6 @@ import com.cloudinary.Cloudinary;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.crypto.Mac;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,8 +13,9 @@ public class CloudinaryConfig {
     @Bean
     public Cloudinary cloudinary(){
         final Map<String, String> config = new HashMap<>();
-        config.put("cloud_name", "");
-        config.put("cloud_key", "");
-        config.put("api_secret","")
+        config.put("cloud_name", "muhammed");
+        config.put("cloud_key", "518328751112733");
+        config.put("api_secret","OWlv-QBoee9zgeGckhJEgeHT_hI");
+        return new Cloudinary(config);
     }
 }
