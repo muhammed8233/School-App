@@ -1,19 +1,17 @@
 package com.example.School_App.SchoolApp.Services;
 
+import com.example.School_App.SchoolApp.Exeption.StudentAlreadyExist;
 import com.example.School_App.SchoolApp.Repository.StudentRepository;
 import com.example.School_App.SchoolApp.Model.Student;
 import com.example.School_App.SchoolApp.SchoolAppDto.StudentDto;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Validated
 public class StudentService implements StudentServiceInterface {
     @Autowired
     private final StudentRepository studentRepository;
@@ -26,8 +24,11 @@ public class StudentService implements StudentServiceInterface {
 
 
     @Override
-    public StudentDto addNewStudent(@Valid StudentDto studentDTO) {
-
+    public StudentDto addNewStudent( StudentDto studentDTO) {
+        boolean exists = studentRepository.existsByEmail(studentDTO.getEmail());
+        if(exists){
+            throw new StudentAlreadyExist("student with email" + studentDTO.getEmail() + " already exist");
+        }
         Student student = new Student();
         student.setName(studentDTO.getName());
         student.setEmail(studentDTO.getEmail());
@@ -35,9 +36,10 @@ public class StudentService implements StudentServiceInterface {
          Student savedStudent = studentRepository.save(student);
 
          StudentDto studentDto = new StudentDto();
-         studentDto.setName(student.getName());
-         studentDto.setEmail(student.getEmail());
-         studentDto.setClassName(student.getClassName());
+         studentDto.setStudentId(savedStudent.getId());
+         studentDto.setName(savedStudent.getName());
+         studentDto.setEmail(savedStudent.getEmail());
+         studentDto.setClassName(savedStudent.getClassName());
 
          return studentDto;
 

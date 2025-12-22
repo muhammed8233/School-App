@@ -53,8 +53,8 @@ public class StudentDto {
     }
 
     public void setName(String name) {
-        if(name != null) {
-            this.name = name.trim();
+        if(name != null && !name.isBlank()) {
+            this.name = name.toLowerCase().trim();
         }else {
             this.name = null;
         }

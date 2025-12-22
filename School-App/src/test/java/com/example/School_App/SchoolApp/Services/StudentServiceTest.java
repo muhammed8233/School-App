@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -71,6 +72,6 @@ class StudentServiceTest {
         StudentDto invalidDto = new StudentDto("", "bala@gmail.com", "ss1");
 
         StudentDto dto = studentService.addNewStudent(invalidDto);
-       assertNotNull(dto.getName());
+       assertThat(dto.getName()).isBlank();
     }
 }

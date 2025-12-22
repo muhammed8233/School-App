@@ -42,5 +42,12 @@ public class EnrollmentDto {
         this.enrollmentId = enrollmentId;
     }
 
-
+    @Override
+    public String toString() {
+        return "EnrollmentDto{" +
+                "enrollmentId=" + enrollmentId +
+                ", studentId=" + studentId +
+                ", courseId=" + courseId +
+                '}';
+    }
 }

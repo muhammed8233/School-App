@@ -1,5 +1,6 @@
 package com.example.School_App.SchoolApp.Services;
 
+import com.example.School_App.SchoolApp.Exeption.CourseAlreadyExist;
 import com.example.School_App.SchoolApp.Model.Course;
 import com.example.School_App.SchoolApp.Repository.CourseRepository;
 import com.example.School_App.SchoolApp.SchoolAppDto.CourseDto;
@@ -36,7 +37,7 @@ public class CourseService implements CourseServiceInterface {
     public CourseDto addNewCourse(CourseDto courseDto){
         boolean exists = courseRepository.existsByCourseCode(courseDto.getCourseCode());
         if(exists){
-            throw new IllegalStateException("Course already exist");
+            throw new CourseAlreadyExist("Course already exist");
         }
         Course course = new Course();
         course.setCourseName(courseDto.getCourseName());
@@ -44,8 +45,9 @@ public class CourseService implements CourseServiceInterface {
        Course savedCourse = courseRepository.save(course);
 
        CourseDto courseDto1 = new CourseDto();
-       courseDto1.setCourseName(course.getCourseName());
-       courseDto1.setCourseCode(course.getCourseCode());
+       courseDto1.setCourseId(savedCourse.getId());
+       courseDto1.setCourseName(savedCourse.getCourseName());
+       courseDto1.setCourseCode(savedCourse.getCourseCode());
 
        return courseDto1;
     }
