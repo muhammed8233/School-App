@@ -35,7 +35,7 @@ public class GradeService implements GradeServiceInterface {
     }
 
     @Override
-    public Grade recordStudentScore(Long studentId, Long courseId, Assessment type, double score) {
+    public GradeDto recordStudentScore(Long studentId, Long courseId, Assessment type, double score) {
         Student student = studentService.getStudentById(studentId);
         Course course = courseService.getCourseById(courseId);
 
@@ -51,7 +51,16 @@ public class GradeService implements GradeServiceInterface {
         grade.setEnrollment(enrollment);
         grade.setAssessmentType(type);
         grade.setScore(score);
-        return gradeRepository.save(grade);
+        Grade savedGrade = gradeRepository.save(grade);
+
+        GradeDto gradeDto = new GradeDto();
+        gradeDto.setStudentId(savedGrade.getId());
+        gradeDto.setStudentId(savedGrade.getEnrollment().getStudent().getId());
+        gradeDto.setCourseId(savedGrade.getEnrollment().getCourse().getId());
+        gradeDto.setScore(savedGrade.getScore());
+        gradeDto.setAssessmentType(savedGrade.getAssessmentType());
+
+        return gradeDto;
     }
     @Override
     public List<ScoreDto> getAllStudentScoreInACourse() {
@@ -108,25 +117,18 @@ public class GradeService implements GradeServiceInterface {
         if (gradeRequests == null || gradeRequests.isEmpty()) {
             throw new IllegalArgumentException("Grade list cannot be empty.");
         }
-        List<Grade> savedGrades = new ArrayList<>();
+
+        List<GradeDto> results = new ArrayList<>();
 
         for (GradeDto request : gradeRequests) {
-            Grade savedGrade = recordStudentScore(request.getStudentId(),
-                    request.getCourseId(), request.getAssessmentType(), request.getScore());
 
-            savedGrades.add(savedGrade);
-        }
-        List<Grade> grades = gradeRepository.saveAll(savedGrades);
-        List<GradeDto> dtos = new ArrayList<>();
+            GradeDto savedDto = recordStudentScore(request.getStudentId(),
+                    request.getCourseId(), request.getAssessmentType(),
+                    request.getScore());
 
-        for (Grade grade : grades){
-            GradeDto gradeDto = new GradeDto();
-            gradeDto.setStudentId(grade.getEnrollment().getStudent().getId());
-            gradeDto.setCourseId(grade.getEnrollment().getCourse().getId());
-            gradeDto.setScore(grade.getScore());
-            gradeDto.setAssessmentType(grade.getAssessmentType());
-            dtos.add(gradeDto);
+            results.add(savedDto);
         }
-        return dtos;
+        return results;
     }
+
 }

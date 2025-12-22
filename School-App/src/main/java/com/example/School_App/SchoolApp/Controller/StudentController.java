@@ -25,7 +25,7 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<String> register(@RequestBody StudentDto studentDto) {
+    public ResponseEntity<String> register(@Valid @RequestBody StudentDto studentDto) {
         studentServiceInterface.addNewStudent(studentDto);
         return ResponseEntity.ok("Student registered successfully");
     }

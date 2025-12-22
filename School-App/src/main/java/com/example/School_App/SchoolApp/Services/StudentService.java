@@ -4,13 +4,16 @@ import com.example.School_App.SchoolApp.Repository.StudentRepository;
 import com.example.School_App.SchoolApp.Model.Student;
 import com.example.School_App.SchoolApp.SchoolAppDto.StudentDto;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Validated
 public class StudentService implements StudentServiceInterface {
     @Autowired
     private final StudentRepository studentRepository;
@@ -23,13 +26,20 @@ public class StudentService implements StudentServiceInterface {
 
 
     @Override
-    public Student addNewStudent(StudentDto studentDTO) {
+    public StudentDto addNewStudent(@Valid StudentDto studentDTO) {
 
         Student student = new Student();
         student.setName(studentDTO.getName());
         student.setEmail(studentDTO.getEmail());
         student.setClassName(studentDTO.getClassName());
-        return studentRepository.save(student);
+         Student savedStudent = studentRepository.save(student);
+
+         StudentDto studentDto = new StudentDto();
+         studentDto.setName(student.getName());
+         studentDto.setEmail(student.getEmail());
+         studentDto.setClassName(student.getClassName());
+
+         return studentDto;
 
     }
 

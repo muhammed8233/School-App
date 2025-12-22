@@ -33,7 +33,7 @@ public class CourseService implements CourseServiceInterface {
     }
 
     @Override
-    public void addNewCourse(CourseDto courseDto){
+    public CourseDto addNewCourse(CourseDto courseDto){
         boolean exists = courseRepository.existsByCourseCode(courseDto.getCourseCode());
         if(exists){
             throw new IllegalStateException("Course already exist");
@@ -41,7 +41,13 @@ public class CourseService implements CourseServiceInterface {
         Course course = new Course();
         course.setCourseName(courseDto.getCourseName());
         course.setCourseCode(courseDto.getCourseCode());
-        courseRepository.save(course);
+       Course savedCourse = courseRepository.save(course);
+
+       CourseDto courseDto1 = new CourseDto();
+       courseDto1.setCourseName(course.getCourseName());
+       courseDto1.setCourseCode(course.getCourseCode());
+
+       return courseDto1;
     }
 
     @Transactional

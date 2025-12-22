@@ -9,7 +9,7 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 
 public interface GradeServiceInterface  {
-    Grade recordStudentScore(Long studentId, Long courseId, Assessment type, double score);
+    GradeDto recordStudentScore(Long studentId, Long courseId, Assessment type, double score);
 
    List<ScoreDto> getAllStudentScoreInACourse();
 

@@ -7,11 +7,11 @@ public class StudentDto {
     private Long studentId;
 
     @NotBlank(message = "name can not be empty")
-    @Size(min =2, max = 50, message = "name size must not be < 2 or > 50")
+    @Size(min =2, max = 50, message = "name size must not be > 2 or <= 50")
     private String name;
 
     @NotBlank(message = "email can not be empty")
-    @Size(min = 3, max = 40, message = "email size can not be < 3 or > 40")
+    @Size(min = 3, max = 40, message = "email size can not be > 3 or <= 40")
     private String email;
 
     @NotBlank
@@ -41,8 +41,10 @@ public class StudentDto {
     }
 
     public void setEmail(String email) {
-        if (email != null) {
+        if (email != null && !email.isBlank()) {
             this.email = email.toLowerCase().trim();
+        }else {
+            this.email = null;
         }
     }
 
@@ -52,7 +54,9 @@ public class StudentDto {
 
     public void setName(String name) {
         if(name != null) {
-            this.name = name.trim().replace("\\s+"," ");
+            this.name = name.trim();
+        }else {
+            this.name = null;
         }
     }
 
@@ -61,8 +65,10 @@ public class StudentDto {
     }
 
     public void setClassName(String className) {
-        if(className != null) {
+        if(className != null && !className.isBlank()) {
             this.className = className.toLowerCase().trim();
+        }else {
+            this.className = null;
         }
     }
 

@@ -9,7 +9,7 @@ import java.util.List;
 public interface CourseServiceInterface {
     List<CourseDto> getStudentCourse();
 
-    void addNewCourse(CourseDto courseDto);
+    CourseDto addNewCourse(CourseDto courseDto);
 
     @Transactional
     List<CourseDto> saveAllCourses(List<CourseDto> courseDto);

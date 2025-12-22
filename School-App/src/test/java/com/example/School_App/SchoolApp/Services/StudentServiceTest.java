@@ -3,6 +3,7 @@ package com.example.School_App.SchoolApp.Services;
 import com.example.School_App.SchoolApp.Model.Student;
 import com.example.School_App.SchoolApp.Repository.StudentRepository;
 import com.example.School_App.SchoolApp.SchoolAppDto.StudentDto;
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,8 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -40,7 +40,7 @@ class StudentServiceTest {
     void testToVerifyAddNewStudent(){
         StudentDto studentDto = new StudentDto("bala","bala@gmail.com","ss1");
 
-       Student result = studentService.addNewStudent(studentDto);
+       StudentDto result = studentService.addNewStudent(studentDto);
 
        assertNotNull(result);
        assertEquals("bala@gmail.com", result.getEmail());
@@ -64,5 +64,13 @@ class StudentServiceTest {
         assertEquals("bala", result.get(0).getName());
         assertEquals("musa", result.get(1).getName());
 
+    }
+
+    @Test
+    void shouldThrowExceptionWhenNameIsBlank() {
+        StudentDto invalidDto = new StudentDto("", "bala@gmail.com", "ss1");
+
+        StudentDto dto = studentService.addNewStudent(invalidDto);
+       assertNotNull(dto.getName());
     }
 }

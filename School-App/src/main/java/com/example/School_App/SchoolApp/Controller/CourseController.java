@@ -33,12 +33,6 @@ public class CourseController {
          return ResponseEntity.ok("Course registered successfully");
     }
 
-    @PostMapping
-    public ResponseEntity<List<CourseDto>> uploadCourses(@RequestBody List<CourseDto> courseDtoList) {
-        List<CourseDto> savedCourse = courseServiceInterface.saveAllCourses(courseDtoList);
-        return new ResponseEntity<>(savedCourse, HttpStatus.CREATED);
-    }
-
     @PostMapping("/bulk-register")
     public ResponseEntity<List<CourseDto>> multipleRegister(@RequestBody List<CourseDto> courseDtoList){
         List<CourseDto> savedCourses = courseServiceInterface.saveAllCourses(courseDtoList);
