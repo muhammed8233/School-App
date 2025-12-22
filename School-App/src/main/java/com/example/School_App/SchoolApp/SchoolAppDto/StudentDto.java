@@ -1,9 +1,21 @@
 package com.example.School_App.SchoolApp.SchoolAppDto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class StudentDto {
     private Long studentId;
+
+    @NotBlank(message = "name can not be empty")
+    @Size(min =2, max = 50, message = "name size must not be < 2 or > 50")
     private String name;
+
+    @NotBlank(message = "email can not be empty")
+    @Size(min = 3, max = 40, message = "email size can not be < 3 or > 40")
     private String email;
+
+    @NotBlank
+    @Size(min = 3, max = 20, message = "class name must not be < 3 or > 20")
     private String className;
 
     public StudentDto(String name, String email, String className) {
@@ -29,7 +41,9 @@ public class StudentDto {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        if (email != null) {
+            this.email = email.toLowerCase().trim();
+        }
     }
 
     public String getName() {
@@ -37,7 +51,9 @@ public class StudentDto {
     }
 
     public void setName(String name) {
-        this.name = name;
+        if(name != null) {
+            this.name = name.trim().replace("\\s+"," ");
+        }
     }
 
     public String getClassName() {
@@ -45,7 +61,9 @@ public class StudentDto {
     }
 
     public void setClassName(String className) {
-        this.className = className;
+        if(className != null) {
+            this.className = className.toLowerCase().trim();
+        }
     }
 
     @Override

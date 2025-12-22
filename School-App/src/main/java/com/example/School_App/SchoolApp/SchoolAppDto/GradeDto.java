@@ -43,7 +43,6 @@ public class GradeDto {
     }
 
     public void setScore(double score) {
-        score = 10.9;
         this.score = score;
     }
 

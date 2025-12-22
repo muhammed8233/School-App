@@ -1,20 +1,14 @@
 package com.example.School_App.SchoolApp.Services;
 
 import com.example.School_App.SchoolApp.Enum.Assessment;
-import com.example.School_App.SchoolApp.Model.Course;
-import com.example.School_App.SchoolApp.Model.Enrollment;
-import com.example.School_App.SchoolApp.Model.Grade;
-import com.example.School_App.SchoolApp.Model.Student;
 import com.example.School_App.SchoolApp.Repository.GradeRepository;
 import com.example.School_App.SchoolApp.SchoolAppDto.*;
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 
@@ -44,7 +38,7 @@ class GradeServiceTest {
     @Test
     void testToRecordStudentGradeInACourse() {
         List<StudentDto> savedStudent = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1")));
-        List<CourseDto> savedCourse = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));
+        List<CourseDto> savedCourse = courseService.saveAllCourses(List.of(new CourseDto("physics", "phy101")));
 
         List<EnrollmentDto> enrollmentRequests = List.of(
                 new EnrollmentDto(savedStudent.get(0).getStudentId(), savedCourse.get(0).getCourseId()));
@@ -69,7 +63,7 @@ class GradeServiceTest {
     @Test
     void testToGetAllStudentScoreInACourse(){
         List<StudentDto> savedStudents = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1")));
-        List<CourseDto> savedCourses = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));
+        List<CourseDto> savedCourses = courseService.saveAllCourses(List.of(new CourseDto("physics", "phy101")));
         List<EnrollmentDto> enrollments = enrollmentService.saveAllEnrollments(List.of(
                 new EnrollmentDto(savedStudents.get(0).getStudentId(), savedCourses.get(0).getCourseId())));
 
@@ -90,7 +84,7 @@ class GradeServiceTest {
     void testToComputeFinalScoreForStudent() {
 
         List<StudentDto> savedStudents = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1")));
-        List<CourseDto> savedCourses = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));
+        List<CourseDto> savedCourses = courseService.saveAllCourses(List.of(new CourseDto("physics", "phy101")));
         List<EnrollmentDto> enrollments = enrollmentService.saveAllEnrollments(List.of(
                 new EnrollmentDto(savedStudents.get(0).getStudentId(), savedCourses.get(0).getCourseId())));
 

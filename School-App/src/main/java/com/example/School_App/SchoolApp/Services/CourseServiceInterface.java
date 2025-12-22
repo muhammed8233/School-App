@@ -12,7 +12,7 @@ public interface CourseServiceInterface {
     void addNewCourse(CourseDto courseDto);
 
     @Transactional
-    List<CourseDto> saveAllCoursesFromDto(List<CourseDto> courseDto);
+    List<CourseDto> saveAllCourses(List<CourseDto> courseDto);
 
     Course getCourseById(Long courseId);
 

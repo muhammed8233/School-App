@@ -5,12 +5,16 @@ import com.example.School_App.SchoolApp.SchoolAppDto.GradeDto;
 import com.example.School_App.SchoolApp.SchoolAppDto.ScoreDto;
 import com.example.School_App.SchoolApp.Services.GradeServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/v1/grade")
+@Validated
 public class GradeController {
 
     @Autowired private final GradeServiceInterface gradeServiceInterface;
@@ -20,26 +24,25 @@ public class GradeController {
     }
 
     @PostMapping("score")
-    public Grade recordStudentScore(@RequestBody GradeDto gradeDto){
-        return gradeServiceInterface.recordStudentScore(gradeDto.getStudentId(),
+    public ResponseEntity<String> recordStudentScore(@RequestBody GradeDto gradeDto){
+         gradeServiceInterface.recordStudentScore(gradeDto.getStudentId(),
                 gradeDto.getCourseId(), gradeDto.getAssessmentType(), gradeDto.getScore());
+         return ResponseEntity.ok("score recorded successfully");
     }
 
 
     @GetMapping("all-scores")
-    public List<ScoreDto> getAllStudentScoreInACourse(){
-        return gradeServiceInterface.getAllStudentScoreInACourse();
+    public ResponseEntity<List<ScoreDto>> getAllStudentScoreInACourse(){
+        List<ScoreDto> records = gradeServiceInterface.getAllStudentScoreInACourse();
+
+        return new ResponseEntity<>(records, HttpStatus.CREATED);
     }
 
 
     @GetMapping("/{enrollmentId}/final-score")
-    public double getFinalScore(@PathVariable Long enrollmentId){
-        return gradeServiceInterface.computeFinalScore(enrollmentId);
-    }
+    public ResponseEntity<Double> getFinalScore(@PathVariable Long enrollmentId){
+        Double  computeFinalScore = gradeServiceInterface.computeFinalScore(enrollmentId);
 
-
-    @PostMapping("save")
-    public List<GradeDto> saveAllGrade(@RequestBody List<GradeDto> gradeDtoList){
-        return gradeServiceInterface.saveAllGradesFromDto(gradeDtoList);
+        return ResponseEntity.ok(computeFinalScore);
     }
 }

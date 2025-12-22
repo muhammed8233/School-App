@@ -46,7 +46,7 @@ public class CourseService implements CourseServiceInterface {
 
     @Transactional
     @Override
-    public List<CourseDto> saveAllCoursesFromDto(List<CourseDto> courseDtoList) {
+    public List<CourseDto> saveAllCourses(List<CourseDto> courseDtoList) {
         if (courseDtoList == null || courseDtoList.isEmpty()) {
             throw new IllegalArgumentException("Course list cannot be empty.");
         }

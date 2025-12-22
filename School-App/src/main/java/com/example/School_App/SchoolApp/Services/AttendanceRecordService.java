@@ -11,6 +11,7 @@ import com.example.School_App.SchoolApp.Repository.StudentRepository;
 import com.example.School_App.SchoolApp.Model.Student;
 import com.example.School_App.SchoolApp.SchoolAppDto.AttendanceRecordDto;
 import com.example.School_App.SchoolApp.SchoolAppDto.StudentDto;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -98,6 +99,7 @@ public class AttendanceRecordService implements AttendanceRecordServiceInterface
        return recordDto;
     }
 
+    @Transactional
     @Override
     public List<AttendanceRecordDto> saveAllAttendanceRecords(List<AttendanceRecordDto> attendanceRecordDtoList) {
         if (attendanceRecordDtoList == null || attendanceRecordDtoList.isEmpty()) {
@@ -132,6 +134,5 @@ public class AttendanceRecordService implements AttendanceRecordServiceInterface
         }
         return dtos;
     }
-
 
 }

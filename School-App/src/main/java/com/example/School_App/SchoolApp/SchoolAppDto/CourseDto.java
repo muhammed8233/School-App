@@ -1,8 +1,17 @@
 package com.example.School_App.SchoolApp.SchoolAppDto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class CourseDto {
     private Long courseId;
+
+    @NotBlank(message = "course name must not be empty")
+    @Size(min = 2, max = 30, message = "course name must not be < 2 or > 30 ")
     private String courseName;
+
+    @NotBlank(,message = "course code must not be empty")
+    @Size(min = 3, max = 10, message = "course code must not be < 3 or > 10")
     private String courseCode;
 
     public CourseDto(String courseName, String courseCode) {
@@ -19,7 +28,9 @@ public class CourseDto {
     }
 
     public void setCourseCode(String courseCode) {
-        this.courseCode = courseCode;
+        if(courseCode != null) {
+            this.courseCode = courseCode.toLowerCase().trim();
+        }
     }
 
     public String getCourseName() {
@@ -27,7 +38,9 @@ public class CourseDto {
     }
 
     public void setCourseName(String courseName) {
-        this.courseName = courseName;
+        if (courseName != null) {
+            this.courseName = courseName.toLowerCase().trim();
+        }
     }
 
     public void setCourseId(Long courseId) {

@@ -42,7 +42,7 @@ class AttendanceRecordServiceTest {
     void testMarkStudentAttendance() {
 
         List<StudentDto> savedStudents = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1")));
-        List<CourseDto> savedCourses = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));
+        List<CourseDto> savedCourses = courseService.saveAllCourses(List.of(new CourseDto("physics", "phy101")));
         List<EnrollmentDto> enrollments = enrollmentService.saveAllEnrollments(List.of(
                 new EnrollmentDto(savedStudents.get(0).getStudentId(), savedCourses.get(0).getCourseId())));
 
@@ -62,7 +62,7 @@ class AttendanceRecordServiceTest {
     @Test
     void testToSaveAllAttendanceRecords() {
         List<StudentDto> savedStudents = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1")));
-        List<CourseDto> savedCourses = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));
+        List<CourseDto> savedCourses = courseService.saveAllCourses(List.of(new CourseDto("physics", "phy101")));
         List<EnrollmentDto> enrollments = enrollmentService.saveAllEnrollments(List.of(
                 new EnrollmentDto(savedStudents.get(0).getStudentId(), savedCourses.get(0).getCourseId())));
 
@@ -91,7 +91,7 @@ class AttendanceRecordServiceTest {
     @Test
     void testToGetAllStudentAttendanceRecord() {
         List<StudentDto> savedStudents = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1")));
-        List<CourseDto> savedCourses = courseService.saveAllCoursesFromDto(List.of(new CourseDto("physics", "phy101")));
+        List<CourseDto> savedCourses = courseService.saveAllCourses(List.of(new CourseDto("physics", "phy101")));
         List<EnrollmentDto> enrollments = enrollmentService.saveAllEnrollments(List.of(
                 new EnrollmentDto(savedStudents.get(0).getStudentId(), savedCourses.get(0).getCourseId())));
 
