@@ -1,5 +1,7 @@
 package com.example.School_App.SchoolApp.Services;
 
+import com.example.School_App.SchoolApp.Exeption.CourseNotFoundException;
+import com.example.School_App.SchoolApp.Exeption.StudentNotFoundException;
 import com.example.School_App.SchoolApp.Model.Course;
 import com.example.School_App.SchoolApp.Model.Enrollment;
 import com.example.School_App.SchoolApp.Model.Student;
@@ -94,9 +96,9 @@ public class EnrollmentService implements EnrollmentServiceInterface{
     @Override
     public EnrollmentDto enrollStudentInCourse(Long studentId, Long courseId) {
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new IllegalStateException("Student with id " + studentId + " not found"));
+                .orElseThrow(() -> new StudentNotFoundException("Student with id " + studentId + " not found"));
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new IllegalStateException("Course with id " + courseId + " not found"));
+                .orElseThrow(() -> new CourseNotFoundException("Course with id " + courseId + " not found"));
 
         if (enrollmentRepository.existsByStudentAndCourse(student, course)) {
             throw new RuntimeException("Student is already enrolled in this course");

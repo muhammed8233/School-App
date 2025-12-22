@@ -27,7 +27,11 @@ public class StudentService implements StudentServiceInterface {
     public StudentDto addNewStudent( StudentDto studentDTO) {
         boolean exists = studentRepository.existsByEmail(studentDTO.getEmail());
         if(exists){
-            throw new StudentAlreadyExist("student with email" + studentDTO.getEmail() + " already exist");
+            try {
+                throw new StudentAlreadyExist("student with email" + studentDTO.getEmail() + " already exist");
+            } catch (StudentAlreadyExist e) {
+                throw new RuntimeException(e);
+            }
         }
         Student student = new Student();
         student.setName(studentDTO.getName());
