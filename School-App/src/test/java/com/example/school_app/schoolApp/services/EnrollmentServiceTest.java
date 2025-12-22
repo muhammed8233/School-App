@@ -42,28 +42,66 @@ class EnrollmentServiceTest {
         assertEquals(savedCourse.getCourseId(), enrollments.get(0).getCourseId());
     }
 
-    @Test
-    void testToGetAllCourseForAStudent(){
-        List <StudentDto> savedStudent = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1")));
-        List<CourseDto> savedCourse = courseService.saveAllCourses(List.of(new CourseDto("physics", "phy101")));
+//    @Test
+//    void testToGetAllCourseForAStudent(){
+//        List <StudentDto> savedStudent = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1")));
+//        List<CourseDto> savedCourse = courseService.saveAllCourses(List.of(new CourseDto("physics", "phy101")));
+//
+//        List <StudentDto> students = studentService.saveAllStudents(List.of(new StudentDto("yahaya", "yahaya@gmail.com", "ss1")));
+//        List<CourseDto> courses = courseService.saveAllCourses(List.of(new CourseDto("physics", "phy101")));
+//
+//        EnrollmentDto enrollmentDto = new EnrollmentDto();
+//        enrollmentDto.setCourseId(savedCourse.getFirst().getCourseId());
+//        enrollmentDto.setStudentId(savedStudent.getFirst().getStudentId());
+//
+//        EnrollmentDto enrollmentDto1 = new EnrollmentDto();
+//        enrollmentDto1.setCourseId(courses.getLast().getCourseId());
+//        enrollmentDto1.setStudentId(students.getLast().getStudentId());
+//
+//        List<EnrollmentDto> enrollmentDtoList = enrollmentService.saveAllEnrollments(List.of(enrollmentDto, enrollmentDto1));
+//        List<EnrollmentDto> result = enrollmentService.getCourseByStudent(enrollmentDtoList.getFirst().getStudentId());
+//        assertNotNull(result);
+//        assertEquals(2, enrollmentDtoList.size());
+//        assertEquals(enrollmentDtoList.getFirst().getCourseId(), result.getFirst().getCourseId());
+//    }
+@Test
+void testToGetAllCourseForAStudent() {
+    List<StudentDto> savedStudents = studentService.saveAllStudents(List.of(
+            new StudentDto("musa", "musa@gmail.com", "ss1"),
+            new StudentDto("yahaya", "yahaya@gmail.com", "ss1")
+    ));
+    List<CourseDto> savedCourses = courseService.saveAllCourses(List.of(
+            new CourseDto("physics", "phy101"),
+            new CourseDto("chemistry", "che101")
+    ));
 
-        List <StudentDto> students = studentService.saveAllStudents(List.of(new StudentDto("yahaya", "yahaya@gmail.com", "ss1")));
-        List<CourseDto> courses = courseService.saveAllCourses(List.of(new CourseDto("physics", "phy101")));
 
-        EnrollmentDto enrollmentDto = new EnrollmentDto();
-        enrollmentDto.setCourseId(savedCourse.getFirst().getCourseId());
-        enrollmentDto.setStudentId(savedStudent.getFirst().getStudentId());
+    Long student1Id = savedStudents.get(0).getStudentId();
+    Long course1Id = savedCourses.get(0).getCourseId();
+    Long course2Id = savedCourses.get(1).getCourseId();
 
-        EnrollmentDto enrollmentDto1 = new EnrollmentDto();
-        enrollmentDto1.setCourseId(courses.getLast().getCourseId());
-        enrollmentDto1.setStudentId(students.getLast().getStudentId());
 
-        List<EnrollmentDto> enrollmentDtoList = enrollmentService.saveAllEnrollments(List.of(enrollmentDto, enrollmentDto1));
-        List<EnrollmentDto> result = enrollmentService.getCourseByStudent(enrollmentDtoList.getFirst().getStudentId());
-        assertNotNull(result);
-        assertEquals(2, enrollmentDtoList.size());
-        assertEquals(enrollmentDtoList.getFirst().getCourseId(), result.getFirst().getCourseId());
-    }
+    EnrollmentDto e1 = new EnrollmentDto();
+    e1.setCourseId(course1Id);
+    e1.setStudentId(student1Id);
+
+    EnrollmentDto e2 = new EnrollmentDto();
+    e2.setCourseId(course2Id);
+    e2.setStudentId(student1Id);
+
+    enrollmentService.saveAllEnrollments(List.of(e1, e2));
+
+
+    List<EnrollmentDto> result = enrollmentService.getCourseByStudent(student1Id);
+
+
+    assertNotNull(result);
+    assertEquals(2, result.size());
+    assertEquals(course1Id, result.get(0).getCourseId());
+    assertEquals(course2Id, result.get(1).getCourseId());
+
+}
+
 
 
     @Test
