@@ -36,64 +36,6 @@ public class EnrollmentService implements EnrollmentServiceInterface{
 
     @Transactional
     @Override
-    public List<EnrollmentDto> saveAllEnrollments(List<EnrollmentDto> enrollmentDtoList) {
-        if (enrollmentDtoList == null || enrollmentDtoList.isEmpty()) {
-            throw new IllegalStateException("Enrollment list cannot be empty");
-        }
-
-        List<Enrollment> enrollmentsToSave = new ArrayList<>();
-
-        for (EnrollmentDto dto : enrollmentDtoList) {
-            Student student = studentRepository.findById(dto.getStudentId())
-                    .orElseThrow(() -> new IllegalStateException("Student " + dto.getStudentId() + " not found"));
-            Course course = courseRepository.findById(dto.getCourseId())
-                    .orElseThrow(() -> new IllegalStateException("Course " + dto.getCourseId() + " not found"));
-
-            Enrollment enrollment = new Enrollment();
-            enrollment.setStudent(student);
-            enrollment.setCourse(course);
-            enrollmentsToSave.add(enrollment);
-        }
-
-        List<Enrollment> savedRecords = enrollmentRepository.saveAll(enrollmentsToSave);
-
-        List<EnrollmentDto> dtos = new ArrayList<>();
-        for (Enrollment record : savedRecords) {
-            EnrollmentDto responseDto = new EnrollmentDto();
-            responseDto.setEnrollmentId(record.getId());
-            responseDto.setStudentId(record.getStudent().getId());
-            responseDto.setCourseId(record.getCourse().getId());
-            dtos.add(responseDto);
-        }
-
-        return dtos;
-    }
-
-
-    @Override
-    public List<EnrollmentDto> getCourseByStudent(Long studentId) {
-        List<Enrollment> enrollments = enrollmentRepository.findByStudentId(studentId);
-        List<EnrollmentDto> enrollmentDtos = new ArrayList<>();
-
-        for (Enrollment enrollment : enrollments) {
-            EnrollmentDto dto = new EnrollmentDto();
-            dto.setEnrollmentId(enrollment.getId());
-            dto.setStudentId(enrollment.getStudent().getId());
-            dto.setCourseId(enrollment.getCourse().getId());
-
-            enrollmentDtos.add(dto);
-        }
-        return enrollmentDtos;
-
-    }
-
-    @Override
-    public Enrollment findEnrollmentByStudentAndCourse(Student student, Course course) {
-        return enrollmentRepository.findByStudentAndCourse(student, course);
-    }
-
-    @Transactional
-    @Override
     public EnrollmentDto enrollStudentInCourse(Long studentId, Long courseId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new StudentNotFoundException("Student with id " + studentId + " not found"));
@@ -118,6 +60,27 @@ public class EnrollmentService implements EnrollmentServiceInterface{
         return responseDto;
     }
 
+    @Override
+    public List<EnrollmentDto> getCourseByStudent(Long studentId) {
+        List<Enrollment> enrollments = enrollmentRepository.findByStudentId(studentId);
+        List<EnrollmentDto> enrollmentDtos = new ArrayList<>();
+
+        for (Enrollment enrollment : enrollments) {
+            EnrollmentDto dto = new EnrollmentDto();
+            dto.setEnrollmentId(enrollment.getId());
+            dto.setStudentId(enrollment.getStudent().getId());
+            dto.setCourseId(enrollment.getCourse().getId());
+
+            enrollmentDtos.add(dto);
+        }
+        return enrollmentDtos;
+
+    }
+
+    @Override
+    public Enrollment findEnrollmentByStudentAndCourse(Student student, Course course) {
+        return enrollmentRepository.findByStudentAndCourse(student, course);
+    }
 
     @Override
     public List<EnrollmentDto> getStudentsByACourse(Long courseId) {
@@ -150,5 +113,38 @@ public class EnrollmentService implements EnrollmentServiceInterface{
         return enrollmentDto;
     }
 
+    @Transactional
+    @Override
+    public List<EnrollmentDto> saveAllEnrollments(List<EnrollmentDto> enrollmentDtoList) {
+        if (enrollmentDtoList == null || enrollmentDtoList.isEmpty()) {
+            throw new IllegalStateException("Enrollment list cannot be empty");
+        }
 
+        List<Enrollment> enrollmentsToSave = new ArrayList<>();
+
+        for (EnrollmentDto dto : enrollmentDtoList) {
+            Student student = studentRepository.findById(dto.getStudentId())
+                    .orElseThrow(() -> new IllegalStateException("Student " + dto.getStudentId() + " not found"));
+            Course course = courseRepository.findById(dto.getCourseId())
+                    .orElseThrow(() -> new IllegalStateException("Course " + dto.getCourseId() + " not found"));
+
+            Enrollment enrollment = new Enrollment();
+            enrollment.setStudent(student);
+            enrollment.setCourse(course);
+            enrollmentsToSave.add(enrollment);
+        }
+
+        List<Enrollment> savedRecords = enrollmentRepository.saveAll(enrollmentsToSave);
+
+        List<EnrollmentDto> dtos = new ArrayList<>();
+        for (Enrollment record : savedRecords) {
+            EnrollmentDto responseDto = new EnrollmentDto();
+            responseDto.setEnrollmentId(record.getId());
+            responseDto.setStudentId(record.getStudent().getId());
+            responseDto.setCourseId(record.getCourse().getId());
+            dtos.add(responseDto);
+        }
+
+        return dtos;
+    }
 }

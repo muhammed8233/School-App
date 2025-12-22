@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface AttendanceRecordServiceInterface {
     AttendanceRecordDto getStudentAttendance(Long studentId, Long courseId);
-    AttendanceRecordDto markAttendance(Long studentId, Long courseId, LocalDate date, Status status);
+    AttendanceRecordDto markStudentAttendance(Long studentId, Long courseId, LocalDate date, Status status);
     List<AttendanceRecordDto> saveAllAttendanceRecords(List<AttendanceRecordDto> attendanceRecordDtoList);
 }

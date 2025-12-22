@@ -67,7 +67,7 @@ class GradeServiceTest {
         List<EnrollmentDto> enrollments = enrollmentService.saveAllEnrollments(List.of(
                 new EnrollmentDto(savedStudents.get(0).getStudentId(), savedCourses.get(0).getCourseId())));
 
-        gradeService.saveAllGradesFromDto(List.of(
+        gradeService.saveAllGrades(List.of(
                 new GradeDto(enrollments.get(0).getStudentId(), enrollments.get(0).getCourseId(), Assessment.TEST, 50.0),
                 new GradeDto(enrollments.get(0).getStudentId(), enrollments.get(0).getCourseId(), Assessment.EXAM, 90.0),
                 new GradeDto(enrollments.get(0).getStudentId(), enrollments.get(0).getCourseId(), Assessment.ASSIGNMENT, 20.0)
@@ -88,7 +88,7 @@ class GradeServiceTest {
         List<EnrollmentDto> enrollments = enrollmentService.saveAllEnrollments(List.of(
                 new EnrollmentDto(savedStudents.get(0).getStudentId(), savedCourses.get(0).getCourseId())));
 
-        gradeService.saveAllGradesFromDto(List.of(
+        gradeService.saveAllGrades(List.of(
                 new GradeDto(savedStudents.get(0).getStudentId(), savedCourses.get(0).getCourseId(), Assessment.TEST, 50.0),
                 new GradeDto(savedStudents.get(0).getStudentId(), savedCourses.get(0).getCourseId(), Assessment.EXAM, 90.0)
         ));

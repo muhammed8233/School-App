@@ -115,7 +115,7 @@ public class GradeService implements GradeServiceInterface {
 
     @Transactional
     @Override
-    public List<GradeDto> saveAllGradesFromDto(List<GradeDto> gradeRequests) {
+    public List<GradeDto> saveAllGrades(List<GradeDto> gradeRequests) {
         if (gradeRequests == null || gradeRequests.isEmpty()) {
             throw new GradeNotFoundException("Grade list cannot be empty.");
         }

@@ -31,7 +31,7 @@ public class AttendanceController {
 
     @PostMapping("/mark")
     public ResponseEntity<String> markAttendance(@RequestBody AttendanceRecordDto recordDto) {
-         attendanceRecordServiceInterface.markAttendance(recordDto.getStudentId(),
+         attendanceRecordServiceInterface.markStudentAttendance(recordDto.getStudentId(),
                  recordDto.getCourseId(), recordDto.getDate(), recordDto.getStatus());
 
          return ResponseEntity.ok("marked successfully");

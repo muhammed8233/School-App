@@ -40,31 +40,6 @@ class AttendanceRecordServiceTest {
         attendanceRecordRepository.deleteAll();
     }
 
-//    @Test
-//    void testMarkStudentAttendance() {
-//        StudentDto savedStudents = studentService.saveAllStudents(List.of(new StudentDto("musa", "musa@gmail.com", "ss1"))).get(0);
-//
-//        CourseDto savedCourses = courseService.saveAllCourses(List.of(new CourseDto("physics", "phy101"))).get(0);
-//
-//        EnrollmentDto enrollmentDto1 = new EnrollmentDto();
-//        enrollmentDto1.setCourseId(savedCourses.getCourseId());
-//        enrollmentDto1.setStudentId(savedStudents.getStudentId());
-//
-//       List<EnrollmentDto> enrollments = enrollmentService.saveAllEnrollments(List.of(enrollmentDto1));
-//
-//        attendanceRecordService.markAttendance(enrollments.getFirst().getStudentId(), enrollments.getFirst().getCourseId(),
-//                LocalDate.of(2025, 12, 18), Status.PRESENT);
-//
-//        AttendanceRecordDto recordDto = attendanceRecordService.getStudentAttendance(enrollments.getFirst().getStudentId(), enrollments.getFirst().getCourseId());
-//
-//        assertNotNull(recordDto);
-//        assertEquals(Status.PRESENT, recordDto.getStatus());
-//        assertEquals(savedCourses.getCourseId(), recordDto.getCourseId());
-//        assertEquals(LocalDate.of(2025, 12, 18), recordDto.getDate());
-//
-//
-//    }
-
     @Transactional
     @Test
     void testMarkStudentAttendance() {
@@ -84,7 +59,7 @@ class AttendanceRecordServiceTest {
 
         enrollmentService.saveAllEnrollments(List.of(enrollment));
 
-        attendanceRecordService.markAttendance(
+        attendanceRecordService.markStudentAttendance(
                 musa.getStudentId(), physics.getCourseId(), testDate, Status.PRESENT);
 
         AttendanceRecordDto recordDto = attendanceRecordService.getStudentAttendance(

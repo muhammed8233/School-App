@@ -28,7 +28,12 @@ public class CourseService implements CourseServiceInterface {
         List<CourseDto> courseDto = new ArrayList<>();
 
         for (Course course : courses){
-            courseDto.add(new CourseDto(course.getCourseName(), course.getCourseCode()));
+            CourseDto courseDto1 = new CourseDto();
+            courseDto1.setCourseId(course.getId());
+            courseDto1.setCourseName(course.getCourseName());
+            courseDto1.setCourseCode(course.getCourseCode());
+
+            courseDto.add(courseDto1);
         }
 
         return courseDto;

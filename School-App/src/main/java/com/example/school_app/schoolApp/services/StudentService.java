@@ -22,8 +22,6 @@ public class StudentService implements StudentServiceInterface {
         this.studentRepository = studentRepository;
     }
 
-
-
     @Override
     public StudentDto addNewStudent( StudentDto studentDTO) {
         boolean exists = studentRepository.existsByEmail(studentDTO.getEmail());
@@ -53,8 +51,13 @@ public class StudentService implements StudentServiceInterface {
         List<StudentDto> studentDto = new ArrayList<>();
 
         for (Student student : students){
-            studentDto.add(new StudentDto(student.getName(),
-                    student.getEmail(), student.getClassName()));
+            StudentDto studentDto1 = new StudentDto();
+            studentDto1.setStudentId(student.getId());
+            studentDto1.setName(student.getName());
+            studentDto1.setEmail(student.getEmail());
+            studentDto1.setClassName(student.getClassName());
+
+            studentDto.add(studentDto1);
         }
 
         return studentDto;
@@ -100,16 +103,7 @@ public class StudentService implements StudentServiceInterface {
         return getStudentById(id).getName();
     }
 
-    private List<StudentDto> getAllStudentAsDto(){
-        List<Student> students = studentRepository.findAll();
-        List<StudentDto> studentDto = new ArrayList<>();
 
-        for(Student student : students){
-            studentDto.add(new StudentDto(student.getName(), student.getEmail(), student.getClassName()));
-        }
-
-        return studentDto;
-    }
 
 }
 

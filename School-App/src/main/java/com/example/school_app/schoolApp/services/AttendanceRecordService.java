@@ -70,7 +70,7 @@ public class AttendanceRecordService implements AttendanceRecordServiceInterface
 
 
     @Override
-    public AttendanceRecordDto markAttendance(Long studentId, Long courseId, LocalDate date, Status status) {
+    public AttendanceRecordDto markStudentAttendance(Long studentId, Long courseId, LocalDate date, Status status) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
 
