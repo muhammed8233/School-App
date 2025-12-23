@@ -24,10 +24,10 @@ public class EnrollmentController {
 
 
     @PostMapping
-    public ResponseEntity<String> enrollStudentInACourse(@RequestBody EnrollmentDto enrollmentDto){
-         enrollmentServiceInterface.enrollStudentInCourse(enrollmentDto.getStudentId(),
+    public ResponseEntity<EnrollmentDto> enrollStudentInACourse(@RequestBody EnrollmentDto enrollmentDto){
+       EnrollmentDto enrollmentDto1 = enrollmentServiceInterface.enrollStudentInCourse(enrollmentDto.getStudentId(),
                 enrollmentDto.getCourseId());
-         return ResponseEntity.ok("student enrolled successfully");
+         return new ResponseEntity<>(enrollmentDto1, HttpStatus.CREATED);
     }
 
     @GetMapping("/course/{courseId}")

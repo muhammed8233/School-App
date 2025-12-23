@@ -30,9 +30,9 @@ public class CourseController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addNewCourse(@Valid @RequestBody CourseDto courseDto){
-         courseServiceInterface.addNewCourse(courseDto);
-         return ResponseEntity.ok("Course registered successfully");
+    public ResponseEntity<CourseDto> addNewCourse(@Valid @RequestBody CourseDto courseDto){
+      CourseDto courseDto1 =  courseServiceInterface.addNewCourse(courseDto);
+         return new ResponseEntity<>(courseDto1,HttpStatus.CREATED);
     }
 
     @PostMapping("/bulk-register")

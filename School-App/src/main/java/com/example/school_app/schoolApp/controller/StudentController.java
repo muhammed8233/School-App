@@ -28,8 +28,8 @@ public class StudentController {
 
 
     @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<StudentDto> register(@ModelAttribute StudentDto dto) throws IOException {
-        return ResponseEntity.ok(studentServiceInterface.addNewStudent(dto));
+    public ResponseEntity<StudentDto> register(@ModelAttribute @Valid StudentDto dto) throws IOException {
+        return new ResponseEntity<>(studentServiceInterface.addNewStudent(dto), HttpStatus.CREATED);
     }
 
     @GetMapping

@@ -2,6 +2,7 @@ package com.example.school_app.schoolApp.controller;
 
 import com.example.school_app.schoolApp.dto.GradeDto;
 import com.example.school_app.schoolApp.dto.ScoreDto;
+import com.example.school_app.schoolApp.dto.StudentDto;
 import com.example.school_app.schoolApp.services.GradeServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,10 +24,10 @@ public class GradeController {
     }
 
     @PostMapping("score")
-    public ResponseEntity<String> recordStudentScore(@RequestBody GradeDto gradeDto){
-         gradeServiceInterface.recordStudentScore(gradeDto.getStudentId(),
+    public ResponseEntity<GradeDto> recordStudentScore(@RequestBody GradeDto gradeDto){
+       GradeDto save = gradeServiceInterface.recordStudentScore(gradeDto.getStudentId(),
                 gradeDto.getCourseId(), gradeDto.getAssessmentType(), gradeDto.getScore());
-         return ResponseEntity.ok("score recorded successfully");
+         return new ResponseEntity<>(save, HttpStatus.CREATED);
     }
 
 
@@ -34,7 +35,7 @@ public class GradeController {
     public ResponseEntity<List<ScoreDto>> getAllStudentScoreInACourse(){
         List<ScoreDto> records = gradeServiceInterface.getAllStudentScoreInACourse();
 
-        return new ResponseEntity<>(records, HttpStatus.CREATED);
+        return  ResponseEntity.ok(records);
     }
 
 
