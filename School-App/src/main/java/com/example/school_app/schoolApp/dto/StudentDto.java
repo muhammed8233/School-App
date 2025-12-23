@@ -3,6 +3,7 @@ package com.example.school_app.schoolApp.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.springframework.web.multipart.MultipartFile;
 
 public class StudentDto {
     private Long studentId;
@@ -20,14 +21,21 @@ public class StudentDto {
     @Size(min = 3, max = 20, message = "class name must be between 3 and 20")
     private String className;
 
+    private MultipartFile profileImage;
+    private String profileImageUrl;
+
+    public StudentDto() {}
+    public StudentDto(String name, String email, String className, MultipartFile profileImage) {
+        this.name = name;
+        this.email = email;
+        this.className = className;
+        this.profileImage = profileImage;
+    }
+
     public StudentDto(String name, String email, String className) {
         this.name = name;
         this.email = email;
         this.className = className;
-    }
-
-    public StudentDto() {
-
     }
 
     public Long getStudentId() {
@@ -74,6 +82,22 @@ public class StudentDto {
         }
     }
 
+    public MultipartFile getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(MultipartFile profileImage) {
+        this.profileImage = profileImage;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+
     @Override
     public String toString() {
         return "StudentDto{" +
@@ -81,6 +105,10 @@ public class StudentDto {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", className='" + className + '\'' +
+                ", hasFile=" + (profileImage != null) +
+                ", imageUrl='" + profileImageUrl + '\'' +
                 '}';
     }
+
+
 }

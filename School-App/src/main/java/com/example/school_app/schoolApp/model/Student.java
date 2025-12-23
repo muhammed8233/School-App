@@ -13,6 +13,7 @@ public class Student {
     private String name;
     private String email;
     private String className;
+    private String profileImageUrl;
 
     public Student(){}
 
@@ -61,6 +62,14 @@ public class Student {
         this.className = className;
     }
 
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -70,4 +79,6 @@ public class Student {
                 ", email='" + email + '\'' +
                 '}';
     }
+
+
 }
