@@ -13,7 +13,7 @@ public class CloudinaryConfig {
     @Bean
     public Cloudinary cloudinary(){
         final Map<String, String> config = new HashMap<>();
-        config.put("cloud_name", "muhammed");
+        config.put("cloud_name", "muhammed8233");
         config.put("cloud_key", "518328751112733");
         config.put("api_secret","OWlv-QBoee9zgeGckhJEgeHT_hI");
         return new Cloudinary(config);
